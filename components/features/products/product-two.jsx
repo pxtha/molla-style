@@ -21,16 +21,16 @@ function ProductTwo ( props ) {
     useEffect( () => {
         let min = minPrice;
         let max = maxPrice;
-        product.variants.map( item => {
-            if ( min > item.price ) min = item.price;
-            if ( max < item.price ) max = item.price;
+        product.attributes.product_variants.data.map( item => {
+            if ( min > item.attributes.price ) min = item.attributes.price;
+            if ( max < item.attributes.price ) max = item.attributes.price;
         }, [] );
 
-        if ( product.variants.length == 0 ) {
-            min = product.sale_price
-                ? product.sale_price
-                : product.price;
-            max = product.price;
+        if ( product.attributes.product_variants.data.length == 0 ) {
+            min = product?.attributes?.sale_price
+                ? product?.attributes?.sale_price
+                : product?.attributes?.price;
+            max = product?.attributes?.price;
         }
 
         setMinPrice( min );
@@ -60,49 +60,49 @@ function ProductTwo ( props ) {
 
     function onQuickView ( e ) {
         e.preventDefault();
-        props.showQuickView( product.slug );
+        props.showQuickView(parseInt(product.id));
     }
 
     return (
         <div className="product">
             <figure className="product-media">
                 {
-                    product.new ?
+                    product.attributes.is_new ?
                         <span className="product-label label-new">New</span>
                         : ""
                 }
 
                 {
-                    product.sale_price ?
+                    product?.attributes?.sale_price ?
                         <span className="product-label label-sale">Sale</span>
                         : ""
                 }
 
                 {
-                    product.top ?
+                    product.attributes.top ?
                         <span className="product-label label-top">Top</span>
                         : ""
                 }
 
                 {
-                    !product.stock || product.stock == 0 ?
+                    !product?.attributes?.stock || product?.attributes?.stock == 0 ?
                         <span className="product-label label-out">Out of Stock</span>
                         : ""
                 }
 
-                <ALink href={ `/product/default/${product.slug}` }>
+                <ALink href={ `/product/default/${product.id}` }>
                     <LazyLoadImage
                         alt="product"
-                        src={ process.env.NEXT_PUBLIC_ASSET_URI + product.sm_pictures[ 0 ].url }
+                        src={ product.attributes.images?.data ? process.env.NEXT_PUBLIC_ASSET_URI + product.attributes.images?.data[ 0 ]?.attributes?.url : "" }
                         threshold={ 500 }
                         effect="black and white"
                         wrapperClassName="product-image"
                     />
                     {
-                        product.sm_pictures.length >= 2 ?
+                        product.attributes.images?.data.length >= 2 ?
                             <LazyLoadImage
                                 alt="product"
-                                src={ process.env.NEXT_PUBLIC_ASSET_URI + product.sm_pictures[ 1 ].url }
+                                src={ process.env.NEXT_PUBLIC_ASSET_URI + product.attributes.images?.data[ 1 ].attributes.url }
                                 threshold={ 500 }
                                 effect="black and white"
                                 wrapperClassName="product-image-hover"
@@ -112,11 +112,11 @@ function ProductTwo ( props ) {
                 </ALink>
 
                 {
-                    product.stock && product.stock !== 0 ?
+                    product?.attributes?.stock && product?.attributes?.stock !== 0 ?
                         <div className="product-action action-icon-top">
                             {
-                                product.variants.length > 0 ?
-                                    <ALink href={ `/product/default/${product.slug}` } className="btn-product btn-cart btn-select">
+                                product.attributes.product_variants.data.length > 0 ?
+                                    <ALink href={ `/product/default/${product.id}` } className="btn-product btn-cart btn-select">
                                         <span>select options</span>
                                     </ALink>
                                     :
@@ -151,31 +151,31 @@ function ProductTwo ( props ) {
                 }
                 <div className="product-cat">
                     {
-                        product.category.map( ( item, index ) => (
-                            <React.Fragment key={ item.slug + '-' + index }>
-                                <ALink href={ { pathname: '/shop/sidebar/list', query: { category: item.slug } } }>
-                                    { item.name }
+                        product.attributes?.categories?.data.map( ( item, index ) => (
+                            <React.Fragment key={ item.id + '-' + index }>
+                                <ALink href={ { pathname: '/shop/sidebar/list', query: { category: item.id } } }>
+                                    { item.attributes.name }
                                 </ALink>
-                                { index < product.category.length - 1 ? ', ' : "" }
+                                { index < product.attributes?.categories?.data.length - 1 ? ', ' : "" }
                             </React.Fragment>
                         ) )
                     }
                 </div>
 
                 <h3 className="product-title">
-                    <ALink href={ `/product/default/${product.slug}` }>{ product.name }</ALink>
+                    <ALink href={ `/product/default/${product.id}` }>{ product?.attributes?.product_name }</ALink>
                 </h3>
 
                 {
-                    !product.stock || product.stock == 0 ?
+                    !product?.attributes?.stock || product?.attributes?.stock == 0 ?
                         <div className="product-price">
-                            <span className="out-price">${ product.price.toFixed( 2 ) }</span>
+                            <span className="out-price">${ product?.attributes?.price?.toFixed( 2 ) }</span>
                         </div>
                         :
                         minPrice == maxPrice ?
                             <div className="product-price">${ minPrice.toFixed( 2 ) }</div>
                             :
-                            product.variants.length == 0 ?
+                            product.attributes.product_variants.data.length == 0 ?
                                 <div className="product-price">
                                     <span className="new-price">${ minPrice.toFixed( 2 ) }</span>
                                     <span className="old-price">${ maxPrice.toFixed( 2 ) }</span>
@@ -186,18 +186,18 @@ function ProductTwo ( props ) {
 
                 <div className="ratings-container">
                     <div className="ratings">
-                        <div className="ratings-val" style={ { width: product.ratings * 20 + '%' } }></div>
-                        <span className="tooltip-text">{ product.ratings.toFixed( 2 ) }</span>
+                        <div className="ratings-val" style={ { width: product.attributes.rating * 20 + '%' } }></div>
+                        <span className="tooltip-text">{ product.attributes.rating?.toFixed( 2 ) }</span>
                     </div>
-                    <span className="ratings-text">( { product.review } Reviews )</span>
+                    <span className="ratings-text">( { product.attributes.review } Reviews )</span>
                 </div>
 
                 {
-                    product.variants.length > 0 ?
+                    product.attributes.product_variants.data.length > 0 ?
                         <div className="product-nav product-nav-dots">
                             <div className="row no-gutters">
                                 {
-                                    product.variants.map( ( item, index ) => (
+                                    product.attributes.product_variants.data.map( ( item, index ) => (
                                         <ALink href="#" style={ { backgroundColor: item.color } } key={ index }><span className="sr-only">Color Name</span></ALink>
                                     ) )
                                 }

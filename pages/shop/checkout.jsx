@@ -220,7 +220,7 @@ function Checkout ( props ) {
 
                                                 { cartlist.map( ( item, index ) =>
                                                     <tr key={ index }>
-                                                        <td> <ALink href={ `/product/default/${item.slug}` }>{ item.name }</ALink></td>
+                                                        <td> <ALink href={ `/product/default/${item.id}` }>{ item?.attributes?.product_name }</ALink></td>
                                                         <td>${ item.sum.toLocaleString( undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 } ) }</td>
                                                     </tr>
                                                 ) }

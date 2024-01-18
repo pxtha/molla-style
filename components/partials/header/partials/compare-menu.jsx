@@ -32,7 +32,7 @@ function CompareMenu ( props ) {
                                             <i className="icon-close"></i>
                                         </a>
                                         <h4 className="compare-product-title">
-                                            <ALink href={ `/product/default/${product.slug}` }>{ product.name }</ALink>
+                                            <ALink href={ `/product/default/${product.id}` }>{ product.attributes.product_name }</ALink>
                                         </h4>
                                     </li>
                                 ) )

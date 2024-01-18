@@ -26,18 +26,18 @@ function CartMenu ( props ) {
                                     <div className="product justify-content-between" key={ index }>
                                         <div className="product-cart-details">
                                             <h4 className="product-title">
-                                                <ALink href={ `/product/default/${item.slug}` }>{ item.name }</ALink>
+                                                <ALink href={ `/product/default/${item.id}` }>{ item?.attributes?.product_name }</ALink>
                                             </h4>
 
                                             <span className="cart-product-info">
                                                 <span className="cart-product-qty">{ item.qty } </span>
-                                                 x ${ item.sale_price ? item.sale_price.toFixed( 2 ) : item.price.toFixed( 2 ) }
+                                                 x ${ item.attributes.sale_price ? item.attributes.sale_price.toFixed( 2 ) : item.attributes.price.toFixed( 2 ) }
                                             </span>
                                         </div>
 
                                         <figure className="product-image-container ml-2">
-                                            <ALink href={ `/product/default/${item.slug}` } className="product-image">
-                                                <img src={ process.env.NEXT_PUBLIC_ASSET_URI + item.sm_pictures[ 0 ].url } alt="product" />
+                                            <ALink href={ `/product/default/${item.id}` } className="product-image">
+                                                <img src={ item.attributes.images.data.length > 0 ?  process.env.NEXT_PUBLIC_ASSET_URI + item.attributes.images.data[0].attributes.url : "" } alt="product" />
                                             </ALink>
                                         </figure>
                                         <button className="btn-remove" title="Remove Product" onClick={ () => props.removeFromCart( item ) }><i className="icon-close"></i></button>

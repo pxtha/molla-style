@@ -42,7 +42,7 @@ function ShopListOne ( props ) {
                                         <div className="skel-pro skel-pro-list" key={ index }></div>
                                     ) )
                                     :
-                                    products.map( ( product, index ) => (
+                                    products?.map( ( product, index ) => (
                                         <ProductNine
                                             product={ product }
                                             key={ index }
@@ -58,7 +58,7 @@ function ShopListOne ( props ) {
                                                 </div>
                                             ) )
                                             :
-                                            products.map( ( product, index ) => (
+                                            products?.map( ( product, index ) => (
                                                 <div className={ gridClass } key={ index }>
                                                     <ProductEleven product={ product } />
                                                 </div>

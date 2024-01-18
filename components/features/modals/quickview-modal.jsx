@@ -28,8 +28,11 @@ function QuickViewModal ( props ) {
     if ( !slug ) {
         return <div></div>
     }
-    const { data, loading, error } = useQuery( GET_PRODUCT, { variables: { slug, onlyData: true } } );
-    const product = data && data.product.single;
+    
+    const idFromSlug = parseInt(slug)
+    const { data, loading, error } = useQuery( GET_PRODUCT, { variables: { slug: idFromSlug, onlyData: true } } );
+    const product = data && data.productOne.single?.data;
+
     const router = useRouter();
     const [ carouselRef, setCarouselRef ] = useState( null );
 
@@ -98,39 +101,39 @@ function QuickViewModal ( props ) {
                                         <>
                                             <div className="product-lg mb-1 position-relative">
                                                 {
-                                                    product.new ?
+                                                    product.attributes.is_new ?
                                                         <span className="product-label label-new">New</span>
                                                         : ""
                                                 }
 
                                                 {
-                                                    product.sale_price ?
+                                                    product.attributes.sale_price ?
                                                         <span className="product-label label-sale">Sale</span>
                                                         : ""
                                                 }
 
                                                 {
-                                                    product.top ?
+                                                    product.attributes.top ?
                                                         <span className="product-label label-top">Top</span>
                                                         : ""
                                                 }
 
                                                 {
-                                                    product.stock == 0 ?
+                                                    product.attributes.stock == 0 ?
                                                         <span className="product-label label-out">Out of Stock</span>
                                                         : ""
                                                 }
                                                 <OwlCarousel adClass="product-gallery-carousel owl-full owl-nav-dark cols-1 cols-md-2 cols-lg-3" onChangeRef={ setCarouselRef } events={ events } options={ { 'dots': false, 'nav': false } }>
-                                                    { product.pictures.map( ( item, index ) =>
+                                                    { product.attributes.images.data.map( ( item, index ) =>
                                                         <Magnifier
-                                                            imageSrc={ process.env.NEXT_PUBLIC_ASSET_URI + item.url }
+                                                            imageSrc={ process.env.NEXT_PUBLIC_ASSET_URI + item.attributes.url }
                                                             imageAlt="product"
-                                                            largeImageSrc={ process.env.NEXT_PUBLIC_ASSET_URI + item.url } // Optional
+                                                            largeImageSrc={ process.env.NEXT_PUBLIC_ASSET_URI + item.attributes.url } // Optional
                                                             dragToMove={ false }
                                                             mouseActivation="hover"
                                                             cursorStyleActive="crosshair"
                                                             className="product-gallery-image"
-                                                            style={ { paddingTop: `${product.pictures[ 0 ].height / product.pictures[ 0 ].width * 100}%` } }
+                                                            style={ { paddingTop: `${product.attributes.images.data[ 0 ].attributes.height / product.attributes.images.data[ 0 ].attributes.width * 100}%` } }
                                                             key={ "gallery-" + index }
                                                         />
                                                     ) }
@@ -139,14 +142,14 @@ function QuickViewModal ( props ) {
 
                                             <div className="product-sm row px-2" id="owl-dots">
                                                 {
-                                                    product.pictures.map( ( item, index ) =>
+                                                    product.attributes.images.data.map( ( item, index ) =>
                                                         <button className={ `product-gallery-item mb-0 ${0 === index ? 'active' : ''}` } key={ product.id + '-' + index } onClick={ e => changeBgImage( e, index ) }>
                                                             <div className="lazy-media">
                                                                 <figure className="mb-0">
                                                                     <div className="lazy-overlay"></div>
                                                                     <LazyLoadImage
                                                                         alt="Thumbnail"
-                                                                        src={ process.env.NEXT_PUBLIC_ASSET_URI + product.sm_pictures[ index ].url }
+                                                                        src={ process.env.NEXT_PUBLIC_ASSET_URI + product.attributes.images?.data[ index ].attributes.url }
                                                                         width="100%"
                                                                         height="auto"
                                                                         className="d-block"

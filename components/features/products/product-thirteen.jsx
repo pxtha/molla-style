@@ -17,16 +17,16 @@ function ProductThirteen ( props ) {
     useEffect( () => {
         let min = minPrice;
         let max = maxPrice;
-        product.variants.map( item => {
-            if ( min > item.price ) min = item.price;
-            if ( max < item.price ) max = item.price;
+        product.attributes.product_variants.data.map( item => {
+            if ( min > item.attributes.price ) min = item.attributes.price;
+            if ( max < item.attributes.price ) max = item.attributes.price;
         }, [] );
 
-        if ( product.variants.length == 0 ) {
-            min = product.sale_price
-                ? product.sale_price
-                : product.price;
-            max = product.price;
+        if ( product.attributes.product_variants.data.length == 0 ) {
+            min = product?.attributes?.sale_price
+                ? product?.attributes?.sale_price
+                : product?.attributes?.price;
+            max = product?.attributes?.price;
         }
 
         setMinPrice( min );
@@ -35,19 +35,19 @@ function ProductThirteen ( props ) {
     return (
         <div className="deal-product text-center">
             <figure className="product-media">
-                <ALink href={ `/product/default/${product.slug}` }>
+                <ALink href={ `/product/default/${product.id}` }>
                     <LazyLoadImage
                         alt="product"
-                        src={ process.env.NEXT_PUBLIC_ASSET_URI + product.sm_pictures[ 0 ].url }
+                        src={ product.attributes.images?.data ? process.env.NEXT_PUBLIC_ASSET_URI + product.attributes.images?.data[ 0 ]?.attributes?.url : "" }
                         threshold={ 500 }
                         effect="black and white"
                         wrapperClassName="product-image"
                     />
                     {
-                        product.sm_pictures.length >= 2 ?
+                        product.attributes.images?.data.length >= 2 ?
                             <LazyLoadImage
                                 alt="product"
-                                src={ process.env.NEXT_PUBLIC_ASSET_URI + product.sm_pictures[ 1 ].url }
+                                src={ process.env.NEXT_PUBLIC_ASSET_URI + product.attributes.images?.data[ 1 ].attributes.url }
                                 threshold={ 500 }
                                 effect="black and white"
                                 wrapperClassName="product-image-hover"
@@ -59,19 +59,19 @@ function ProductThirteen ( props ) {
 
             <div className="product-body pt-2">
                 <h3 className="product-title">
-                    <ALink href={ `/product/default/${product.slug}` }>{ product.name }</ALink>
+                    <ALink href={ `/product/default/${product.id}` }>{ product?.attributes?.product_name }</ALink>
                 </h3>
 
                 {
-                    !product.stock || product.stock == 0 ?
+                    !product?.attributes?.stock || product?.attributes?.stock == 0 ?
                         <div className="product-price">
-                            <span className="out-price">${ product.price.toFixed( 2 ) }</span>
+                            <span className="out-price">${ product?.attributes?.price?.toFixed( 2 ) }</span>
                         </div>
                         :
                         minPrice == maxPrice ?
                             <div className="product-price">${ minPrice.toFixed( 2 ) }</div>
                             :
-                            product.variants.length == 0 ?
+                            product.attributes.product_variants.data.length == 0 ?
                                 <div className="product-price">
                                     <span className="new-price">Now ${ minPrice.toFixed( 2 ) }</span>
                                     <span className="old-price">Was ${ maxPrice.toFixed( 2 ) }</span>

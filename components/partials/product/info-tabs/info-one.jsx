@@ -37,7 +37,7 @@ function InfoOne ( props ) {
                     </Tab>
 
                     <Tab className="nav-item">
-                        <span className="nav-link" >Reviews ({ product.review })</span>
+                        <span className="nav-link" >Reviews ({ product.attributes.review })</span>
                     </Tab>
                 </TabList>
 
@@ -93,8 +93,8 @@ function InfoOne ( props ) {
 
                                         <div className="ratings-container">
                                             <div className="ratings">
-                                                <div className="ratings-val" style={ { width: product.ratings * 20 + '%' } }></div>
-                                                <span className="tooltip-text">{ product.ratings.toFixed( 2 ) }</span>
+                                                <div className="ratings-val" style={ { width: product.attributes.rating * 20 + '%' } }></div>
+                                                <span className="tooltip-text">{ product.attributes.rating?.toFixed( 2 ) }</span>
                                             </div>
                                         </div>
                                         <span className="review-date mb-1">6 days ago</span>
@@ -121,8 +121,8 @@ function InfoOne ( props ) {
 
                                         <div className="ratings-container">
                                             <div className="ratings">
-                                                <div className="ratings-val" style={ { width: product.ratings * 20 + '%' } }></div>
-                                                <span className="tooltip-text">{ product.ratings.toFixed( 2 ) }</span>
+                                                <div className="ratings-val" style={ { width: product.attributes.rating * 20 + '%' } }></div>
+                                                <span className="tooltip-text">{ product.attributes.rating?.toFixed( 2 ) }</span>
                                             </div>
                                         </div>
 

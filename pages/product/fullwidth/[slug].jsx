@@ -15,11 +15,12 @@ function ProductFullwidth () {
     const slug = useRouter().query.slug;
     if ( !slug ) return <div></div>;
 
-    const { data, loading, error } = useQuery( GET_PRODUCT, { variables: { slug } } );
-    const product = data && data.product.single;
-    const related = data && data.product.related;
-    const prev = data && data.product.prev;
-    const next = data && data.product.next;
+        const idFromSlug = parseInt(slug)
+    const { data, loading, error } = useQuery( GET_PRODUCT, { variables: { slug: idFromSlug } } );
+    const product = data && data.productOne.single?.data;
+    const related = data && data.productOne.related;
+    const prev = data && data.productOne.prev?.data;
+    const next = data && data.productOne.next?.data;
 
     if ( error ) {
         return <div></div>

@@ -38,10 +38,10 @@ export const isInCart = ( cartItems, product ) => {
 export const canAddToCart = ( cartItems, product, qty ) => {
     let find = cartItems.find( item => item.id == product.id );
     if ( find ) {
-        if ( product.stock == 0 || ( product.stock < ( find.qty + qty ) ) ) return false;
+        if ( product.attributes.stock == 0 || ( product.attributes.stock < ( find.qty + qty ) ) ) return false;
         else return true;
     } else {
-        if ( product.stock == 0 || ( product.stock < qty ) ) return false;
+        if ( product.attributes.stock == 0 || ( product.attributes.stock < qty ) ) return false;
         else return true;
     }
 }
@@ -52,7 +52,7 @@ export const canAddToCart = ( cartItems, product, qty ) => {
  * @param {Object} product 
  */
 export const isInWishlist = ( wishlist, product ) => {
-    return product && wishlist.findIndex( item => item.slug == product.slug ) > -1;
+    return product && wishlist.findIndex( item => item.id == product.id ) > -1;
 }
 
 /**
@@ -61,7 +61,7 @@ export const isInWishlist = ( wishlist, product ) => {
  * @param {Object} product 
  */
 export const isInCompare = ( compare, product ) => {
-    return product && compare.findIndex( item => item.slug == product.slug ) > -1;
+    return product && compare.findIndex( item => item.id == product.id ) > -1;
 }
 
 
@@ -112,7 +112,7 @@ export const catFilter = function ( products = [], category, flag = false ) {
 
     return products.filter( item => {
         for ( let i = 0; i < category.length; i++ ) {
-            if ( item.category.find( cat => cat.slug == category[ i ] ) ) {
+            if ( item.attributes?.categories?.data.find( cat => cat.attributes?.slug == category[ i ] ) ) {
                 if ( !flag ) return true;
             } else {
                 if ( flag ) return false;
@@ -138,7 +138,7 @@ export const attrFilter = function ( products = [], attr ) {
             return true;
         }
 
-        if ( attr === 'sale' && item.sale_price ) {
+        if ( attr === 'sale' && item.attributes.sale_price ) {
             return true;
         }
 

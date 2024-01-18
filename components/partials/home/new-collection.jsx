@@ -18,7 +18,7 @@ function NewCollection ( props ) {
                                 </div>
                             )
                             :
-                            products.map( ( product, index ) =>
+                            products?.map( ( product, index ) =>
                                 <div className="col-6 col-md-4 col-lg-3" key={ index }>
                                     <ProductTwelve product={ product } />
                                 </div>

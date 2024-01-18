@@ -79,7 +79,7 @@ function ShopSidebarOne ( props ) {
                                             {
                                                 shopData.categories.map( ( item, index ) =>
                                                     <div className="filter-item" key={ `cat_${index}` }>
-                                                        <ALink className={ `${query.category == item.slug ? 'active' : ''}` } href={ {pathname: router.pathname, query: { type: query.type, category: item.slug } } } scroll={ false }>{ item.name }</ALink>
+                                                        <ALink className={ `${query.category == item.id ? 'active' : ''}` } href={ {pathname: router.pathname, query: { type: query.type, category: item.id } } } scroll={ false }>{ item?.attributes?.product_name }</ALink>
                                                         <span className="item-count">{ item.count }</span>
                                                     </div>
                                                 )
@@ -106,8 +106,8 @@ function ShopSidebarOne ( props ) {
                                                                 <input type="checkbox"
                                                                     className="custom-control-input"
                                                                     id={ `size-${index + 1}` }
-                                                                    onChange={ e => onAttrClick( e, 'size', item.slug ) }
-                                                                    checked={ containsAttrInUrl( 'size', item.slug ) ? true : false }
+                                                                    onChange={ e => onAttrClick( e, 'size', item.id ) }
+                                                                    checked={ containsAttrInUrl( 'size', item.id ) ? true : false }
                                                                 />
                                                                 <label className="custom-control-label" htmlFor={ `size-${index + 1}` }>{ item.size }</label>
                                                             </div>
@@ -162,8 +162,8 @@ function ShopSidebarOne ( props ) {
                                                                 <input type="checkbox"
                                                                     className="custom-control-input"
                                                                     id={ `brand-${index + 1}` }
-                                                                    onChange={ e => onAttrClick( e, 'brand', item.slug ) }
-                                                                    checked={ containsAttrInUrl( 'brand', item.slug ) ? true : false }
+                                                                    onChange={ e => onAttrClick( e, 'brand', item.id ) }
+                                                                    checked={ containsAttrInUrl( 'brand', item.id ) ? true : false }
                                                                 />
                                                                 <label className="custom-control-label" htmlFor={ `brand-${index + 1}` }>{ item.brand }</label>
                                                             </div>

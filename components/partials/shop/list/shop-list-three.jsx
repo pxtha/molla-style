@@ -30,7 +30,7 @@ function ShopListThree ( props ) {
                                     </div>
                                 ) )
                                 :
-                                products.map( ( product, index ) => (
+                                products?.map( ( product, index ) => (
                                     <div className={ cols } key={ index }>
                                         <ProductTen product={ product }></ProductTen>
                                     </div>

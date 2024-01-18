@@ -14,16 +14,16 @@ function Wishlist ( props ) {
         setWishItems( props.wishlist.reduce( ( acc, product ) => {
             let max = 0;
             let min = 999999;
-            product.variants.map( item => {
-                if ( min > item.price ) min = item.price;
-                if ( max < item.price ) max = item.price;
+            product.attributes.product_variants.data.map( item => {
+                if ( min > item.attributes.price ) min = item.attributes.price;
+                if ( max < item.attributes.price ) max = item.attributes.price;
             }, [] );
 
-            if ( product.variants.length == 0 ) {
-                min = product.sale_price
-                    ? product.sale_price
-                    : product.price;
-                max = product.price;
+            if ( product.attributes.product_variants.data.length == 0 ) {
+                min = product.attributes.sale_price
+                    ? product.attributes.sale_price
+                    : product?.attributes?.price;
+                max = product?.attributes?.price;
             }
 
             return [
@@ -88,27 +88,27 @@ function Wishlist ( props ) {
                                                 <td className="product-col">
                                                     <div className="product">
                                                         <figure className="product-media">
-                                                            <ALink href={ `/product/default/${product.slug}` } className="product-image">
-                                                                <img src={ process.env.NEXT_PUBLIC_ASSET_URI + product.sm_pictures[ 0 ].url } alt="product" />
+                                                            <ALink href={ `/product/default/${product.id}` } className="product-image">
+                                                                <img src={ process.env.NEXT_PUBLIC_ASSET_URI + product.attributes.images?.data[ 0 ].attributes.url } alt="product" />
                                                             </ALink>
                                                         </figure>
 
                                                         <h4 className="product-title">
-                                                            <ALink href={ `/product/default/${product.slug}` }>{ product.name }</ALink>
+                                                            <ALink href={ `/product/default/${product.id}` }>{ product.attributes.product_name }</ALink>
                                                         </h4>
                                                     </div>
                                                 </td>
                                                 <td className="price-col">
                                                     {
-                                                        product.stock == 0 ?
+                                                        product.attributes.stock == 0 ?
                                                             <div className="product-price d-inline-block mb-0">
-                                                                <span className="out-price">${ product.price.toFixed( 2 ) }</span>
+                                                                <span className="out-price">${ product?.attributes?.price.toFixed( 2 ) }</span>
                                                             </div>
                                                             :
                                                             product.minPrice == product.maxPrice ?
                                                                 <div className="product-price d-inline-block mb-0">${ product.minPrice.toFixed( 2 ) }</div>
                                                                 :
-                                                                product.variants.length == 0 ?
+                                                                product.attributes.product_variants.data.length == 0 ?
                                                                     <div className="product-price d-inline-block mb-0">
                                                                         <span className="new-price">${ product.minPrice.toFixed( 2 ) }</span>
                                                                         <span className="old-price">${ product.maxPrice.toFixed( 2 ) }</span>
@@ -118,15 +118,15 @@ function Wishlist ( props ) {
                                                     }
                                                 </td>
                                                 <td className="stock-col">
-                                                    <span className={ `${product.stock == 0 ? 'out-of-stock' : 'in-stock'}` } >{ product.stock == 0 ? 'Out of stock' : 'In stock' }</span>
+                                                    <span className={ `${product.attributes.stock == 0 ? 'out-of-stock' : 'in-stock'}` } >{ product.attributes.stock == 0 ? 'Out of stock' : 'In stock' }</span>
                                                 </td>
                                                 <td className="action-col">
                                                     <div className="dropdown">
                                                         {
-                                                            ( product.variants.length > 0 || product.stock == 0 ) ?
-                                                                <ALink href={ `/product/default/${product.slug}` } className="btn btn-block btn-outline-primary-2 btn-select">
+                                                            ( product.attributes.product_variants.data.length > 0 || product.attributes.stock == 0 ) ?
+                                                                <ALink href={ `/product/default/${product.id}` } className="btn btn-block btn-outline-primary-2 btn-select">
                                                                     <i className="icon-list-alt"></i>
-                                                                    { product.stock == '0' ? 'read more' : 'select' }
+                                                                    { product.attributes.stock == '0' ? 'read more' : 'select' }
                                                                 </ALink>
                                                                 :
                                                                 <button className="btn btn-block btn-outline-primary-2" onClick={ e => moveToCart( product ) }>

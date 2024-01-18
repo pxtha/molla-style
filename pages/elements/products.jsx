@@ -167,7 +167,7 @@ function Products () {
                                     </div>
                                 )
                                 :
-                                products.map( ( product, index ) =>
+                                products?.map( ( product, index ) =>
                                     <div className="col-6 col-md-4 col-lg-3 col-xl-2" key={ index }>
                                         <ProductSix
                                             product={ product }

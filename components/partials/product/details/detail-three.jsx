@@ -28,25 +28,25 @@ function DetailThree ( props ) {
         let min = 99999;
         let max = 0;
 
-        setVariationGroup( product.variants.reduce( ( acc, cur ) => {
-            cur.size.map( item => {
+        setVariationGroup( product.attributes.product_variants.data.reduce( ( acc, cur ) => {
+            cur.attributes.sizes.data.map( item => {
                 acc.push( {
-                    color: cur.color,
-                    colorName: cur.color_name,
-                    size: item.name,
-                    price: cur.price
+                    color: cur.attributes.color,
+                    colorName: cur.attributes.color_name,
+                    size: item.attributes.name,
+                    price: cur.attributes.price
                 } );
             } );
-            if ( min > cur.price ) min = cur.price;
-            if ( max < cur.price ) max = cur.price;
+            if ( min > cur.attributes.price ) min = cur.attributes.price;
+            if ( max < cur.attributes.price ) max = cur.attributes.price;
             return acc;
         }, [] ) );
 
-        if ( product.variants.length == 0 ) {
-            min = product.sale_price
-                ? product.sale_price
-                : product.price;
-            max = product.price;
+        if ( product.attributes.product_variants.data.length == 0 ) {
+            min = product.attributes.sale_price
+                ? product.attributes.sale_price
+                : product?.attributes?.price;
+            max = product?.attributes?.price;
         }
 
         setMinPrice( min );
@@ -114,16 +114,16 @@ function DetailThree ( props ) {
             }, [] );
         }
 
-        setColorArray( product.variants.reduce( ( acc, cur ) => {
+        setColorArray( product.attributes.product_variants.data.reduce( ( acc, cur ) => {
             if (
-                tempArray.findIndex( item => item.color == cur.color ) == -1
+                tempArray.findIndex( item => item.color == cur.attributes.color ) == -1
             ) {
                 return [
                     ...acc,
                     {
-                        color: cur.color,
-                        colorName: cur.color_name,
-                        price: cur.price,
+                        color: cur.attributes.color,
+                        colorName: cur.attributes.color_name,
+                        price: cur.attributes.price,
                         disabled: true
                     }
                 ];
@@ -131,9 +131,9 @@ function DetailThree ( props ) {
             return [
                 ...acc,
                 {
-                    color: cur.color,
-                    colorName: cur.color_name,
-                    price: cur.price,
+                    color: cur.attributes.color,
+                    colorName: cur.attributes.color_name,
+                    price: cur.attributes.price,
                     disabled: false
                 }
             ];
@@ -187,11 +187,11 @@ function DetailThree ( props ) {
         if ( e.currentTarget.classList.contains( 'btn-disabled' ) ) return;
 
         let newProduct = { ...product };
-        if ( product.variants.length > 0 ) {
+        if ( product.attributes.product_variants.data.length > 0 ) {
             newProduct = {
                 ...product,
                 name:
-                    product.name +
+                    product.attributes.product_name +
                     ' - ' +
                     selectedVariant.colorName +
                     ', ' +
@@ -213,26 +213,26 @@ function DetailThree ( props ) {
             <div className="container">
                 <div className="row">
                     <div className="col-md-6">
-                        <h1 className="product-title">{ product.name }</h1>
+                        <h1 className="product-title">{ product.attributes.product_name }</h1>
 
                         <div className="ratings-container">
                             <div className="ratings">
-                                <div className="ratings-val" style={ { width: product.ratings * 20 + '%' } }></div>
-                                <span className="tooltip-text">{ product.ratings.toFixed( 2 ) }</span>
+                                <div className="ratings-val" style={ { width: product.attributes.rating * 20 + '%' } }></div>
+                                <span className="tooltip-text">{ product.attributes.rating?.toFixed( 2 ) }</span>
                             </div>
-                            <span className="ratings-text">( { product.review } Reviews )</span>
+                            <span className="ratings-text">( { product.attributes.review } Reviews )</span>
                         </div>
 
                         {
-                            !product.stock || product.stock == 0 ?
+                            !product.attributes.stock || product.attributes.stock == 0 ?
                                 <div className="product-price">
-                                    <span className="out-price">${ product.price.toFixed( 2 ) }</span>
+                                    <span className="out-price">${ product?.attributes?.price.toFixed( 2 ) }</span>
                                 </div>
                                 :
                                 minPrice == maxPrice ?
                                     <div className="product-price">${ minPrice.toFixed( 2 ) }</div>
                                     :
-                                    product.variants.length == 0 ?
+                                    product.attributes.product_variants.data.length == 0 ?
                                         <div className="product-price">
                                             <span className="new-price">${ minPrice.toFixed( 2 ) }</span>
                                             <span className="old-price">${ maxPrice.toFixed( 2 ) }</span>
@@ -242,11 +242,11 @@ function DetailThree ( props ) {
                         }
 
                         <div className="product-content">
-                            <p>{ product.short_desc }</p>
+                            <p>{ product.attributes.description }</p>
                         </div>
 
                         {
-                            product.variants.length > 0 ?
+                            product.attributes.product_variants.data.length > 0 ?
                                 <>
                                     <div className="details-filter-row details-row-size">
                                         <label>Color:</label>
@@ -315,10 +315,10 @@ function DetailThree ( props ) {
                     <div className="col-md-6">
                         <div className="product-details-action mb-1">
                             <div className="details-action-col">
-                                <Qty changeQty={ onChangeQty } max={ product.stock } adClass=" mr-2 mr-sm-3"></Qty>
+                                <Qty changeQty={ onChangeQty } max={ product.attributes.stock } adClass=" mr-2 mr-sm-3"></Qty>
                                 <a
                                     href="#"
-                                    className={ `btn-product btn-cart ml-sm-2 ${( !canAddToCart( props.cartlist, product, qty ) || ( product.variants.length > 0 && !showVariationPrice ) ) ? 'btn-disabled' : ''}` }
+                                    className={ `btn-product btn-cart ml-sm-2 ${( !canAddToCart( props.cartlist, product, qty ) || ( product.attributes.product_variants.data.length > 0 && !showVariationPrice ) ) ? 'btn-disabled' : ''}` }
                                     onClick={ onCartClick }
                                 >
                                     <span>add to cart</span>
@@ -339,12 +339,12 @@ function DetailThree ( props ) {
                             <div className="product-cat">
                                 <span>Category:</span>
                                 {
-                                    product.category.map( ( cat, index ) => (
+                                    product.attributes?.categories?.data.map( ( cat, index ) => (
                                         <span key={ index }>
                                             <ALink
                                                 href={ { pathname: '/shop/sidebar/list', query: { category: cat.slug } } }
-                                            >{ cat.name }</ALink>
-                                            { index < product.category.length - 1 ? ',' : '' }
+                                            >{ cat.attributes.name }</ALink>
+                                            { index < product.attributes?.categories?.data.length - 1 ? ',' : '' }
                                         </span>
                                     ) )
                                 }

@@ -17,7 +17,7 @@ function DealCollection ( props ) {
                             <h2>Deal of the Day</h2>
 
                             <div className="deal-countdown">
-                                <Countdown date={ `2022-02-01T01:02:03` } renderer={ rendererThree } />
+                                <Countdown date={ `2024-01-25T01:02:03` } renderer={ rendererThree } />
                             </div>
                         </div>
                         <div className="row deal-products">
@@ -29,7 +29,7 @@ function DealCollection ( props ) {
                                         </div>
                                     )
                                     :
-                                    products.map( ( product, index ) =>
+                                    products?.map( ( product, index ) =>
                                         <div className="col-6" key={ index }>
                                             <ProductThirteen product={ product } />
                                         </div>

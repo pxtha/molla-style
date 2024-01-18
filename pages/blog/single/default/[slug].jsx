@@ -106,7 +106,7 @@ function BlogDefault ( props ) {
                                                             post.type !== 'video' ?
                                                                 <LazyLoadImage
                                                                     alt="Post"
-                                                                    src={ process.env.NEXT_PUBLIC_ASSET_URI + post.image[ 0 ].url }
+                                                                    src={ process.env.NEXT_PUBLIC_ASSET_URI + post.image[ 0 ].attributes.url }
                                                                     threshold={ 500 }
                                                                     effect="blur"
                                                                 />
@@ -114,7 +114,7 @@ function BlogDefault ( props ) {
                                                                 <>
                                                                     <LazyLoadImage
                                                                         alt="Post"
-                                                                        src={ process.env.NEXT_PUBLIC_ASSET_URI + post.image[ 0 ].url }
+                                                                        src={ process.env.NEXT_PUBLIC_ASSET_URI + post.image[ 0 ].attributes.url }
                                                                         threshold={ 500 }
                                                                         effect="blur"
                                                                     />
@@ -136,7 +136,7 @@ function BlogDefault ( props ) {
 
                                                                         <LazyLoadImage
                                                                             alt="Post"
-                                                                            src={ `${process.env.NEXT_PUBLIC_ASSET_URI + item.url}` }
+                                                                            src={ `${process.env.NEXT_PUBLIC_ASSET_URI + item.attributes.url}` }
                                                                             threshold={ 500 }
                                                                             effect="blur"
                                                                         />
@@ -168,7 +168,7 @@ function BlogDefault ( props ) {
                                                 {
                                                         post.blog_categories.map( ( cat, index ) => (
                                                             <span key={ index }>
-                                                                <ALink href={ { pathname: '/blog/classic', query: { category: cat.slug } } }>{ cat.name }</ALink>
+                                                                <ALink href={ { pathname: '/blog/classic', query: { category: cat.slug } } }>{ cat.attributes.name }</ALink>
                                                                 { index < post.blog_categories.length - 1 ? ', ' : '' }
                                                             </span>
                                                         ) )
@@ -321,7 +321,7 @@ function BlogDefault ( props ) {
                                                 prev ?
                                                     <ALink
                                                         className="pager-link pager-link-prev"
-                                                        href={ `/blog/single/default/${prev.slug}` }
+                                                        href={ `/blog/single/default/${prev.id}` }
                                                     >
                                                         Previous Post
                                                     <span className="pager-link-title">{ prev.title }</span>
@@ -335,7 +335,7 @@ function BlogDefault ( props ) {
                                                 next ?
                                                     <ALink
                                                         className="pager-link pager-link-next"
-                                                        href={ `/blog/single/default/${next.slug}` }
+                                                        href={ `/blog/single/default/${next.id}` }
                                                     >
                                                         Next Post
                                                     <span className="pager-link-title">{ next.title }</span>

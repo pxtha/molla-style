@@ -22,7 +22,7 @@ function ShopListThree ( props ) {
                                     </div>
                                 ) )
                                 :
-                                products.map( ( product, index ) => (
+                                products?.map( ( product, index ) => (
                                     <div className="col-6 col-md-4 col-xl-3" key={ index }>
                                         <ProductFive product={ product } />
                                     </div>

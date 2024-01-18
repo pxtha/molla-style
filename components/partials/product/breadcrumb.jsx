@@ -23,7 +23,7 @@ function Breadcrumb ( props ) {
                     {
                         prev ?
                             <ALink
-                                href={ {pathname: router.pathname, query: {slug: prev.slug}} }
+                                href={ {pathname: router.pathname, query: {slug: prev.id}} }
                                 className={ `product-pager-link product-pager-prev ${!next ? 'prev-only' : ''}` }
                             >
                                 <i className="icon-angle-left"></i>
@@ -31,13 +31,13 @@ function Breadcrumb ( props ) {
                                 <div className="product-detail">
                                     <figure>
                                         <img
-                                            src={ process.env.NEXT_PUBLIC_ASSET_URI + prev.sm_pictures[ 0 ].url }
+                                            src={ prev.attributes.images.data.length > 0 ? process.env.NEXT_PUBLIC_ASSET_URI + prev.attributes.images.data[ 0 ].attributes.url : "" }
                                             alt="product"
-                                            width={ prev.sm_pictures[ 0 ].width }
-                                            height={ prev.sm_pictures[ 0 ].height }
+                                            width={ 300 }
+                                            height={ 300 }
                                         />
                                     </figure>
-                                    <h3 className="product-name mb-0">{ prev.name }</h3>
+                                    <h3 className="product-name mb-0">{ prev.attributes.product_name }</h3>
                                 </div>
                             </ALink>
                             : ""
@@ -46,7 +46,7 @@ function Breadcrumb ( props ) {
                     {
                         next ?
                             <ALink
-                                href={ {pathname: router.pathname, query: {slug: next.slug}} }
+                                href={ {pathname: router.pathname, query: {slug: next.id}} }
                                 className="product-pager-link product-pager-next"
                             >
                                 <span>Next</span>
@@ -54,13 +54,13 @@ function Breadcrumb ( props ) {
                                 <div className="product-detail">
                                     <figure>
                                         <img
-                                            src={ process.env.NEXT_PUBLIC_ASSET_URI + next.sm_pictures[ 0 ].url }
+                                            src={ next.attributes.images.data.length > 0 ? process.env.NEXT_PUBLIC_ASSET_URI + next.attributes.images.data[ 0 ].attributes.url : "" }
                                             alt="product"
-                                            width={ next.sm_pictures[ 0 ].width }
-                                            height={ next.sm_pictures[ 0 ].height }
+                                            width={ 300 }
+                                            height={ 300 }
                                         />
                                     </figure>
-                                    <h3 className="product-name mb-0">{ next.name }</h3>
+                                    <h3 className="product-name mb-0">{ next.attributes.product_name }</h3>
                                 </div>
                             </ALink>
                             : ""

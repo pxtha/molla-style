@@ -110,10 +110,6 @@ function Header () {
                         <div className="header-center">
                         </div>
 
-                        <div className="header-right overflow-hidden">
-                            <i className="icon-medapps"></i>
-                            <p className="font-weight-semibold">Clearance Up to 30% Off</p>
-                        </div>
                     </div>
                 </div>
             </StickyHeader>

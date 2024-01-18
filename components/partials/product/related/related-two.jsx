@@ -14,7 +14,7 @@ function RelatedTwo ( props ) {
         <OwlCarousel adClass="owl-simple">
             <div>
                 {
-                    products.map( ( product, index ) => (
+                    products?.map( ( product, index ) => (
                         <ProductEight product={ product } key={ index } />
                     ) )
                 }

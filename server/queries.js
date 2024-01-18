@@ -1,140 +1,341 @@
 import gql from 'graphql-tag';
 
 export const GET_PRODUCTS = gql`
-    query products($searchTerm: String, $color: [String], $size: [String], $brand: [String], $minPrice: Int, $maxPrice: Int, $category: String, $rating: [String], $sortBy: String, $page: Int = 1, $perPage: Int, $list: Boolean = false, $from: Int = 0) {
-        products(demo: ${process.env.NEXT_PUBLIC_DEMO}, searchTerm: $searchTerm, color: $color, size: $size, brand: $brand, minPrice: $minPrice, maxPrice: $maxPrice, category: $category, rating: $rating, sortBy: $sortBy, page: $page, perPage: $perPage, list: $list, from: $from) {
-            data {
-                id
-                name
-                slug
-                price
-                sale_price
-                review
-                ratings
-                until
-                stock
-                top
-                featured
-                new
-                short_desc @include(if: $list)
-                category {
+query products(
+  $searchTerm: String
+  $color: [ID]
+  $size: [ID]
+  $brand: [ID]
+  $minPrice: Float
+  $maxPrice: Float
+  $category: ID
+  $rating: Int
+  $sortBy: [String]
+  $page: Int = 1
+  $perPage: Int
+) {
+  products(
+    filters: {
+      and: [
+        { product_name: { contains: $searchTerm } }
+        { product_variants: { id: { in: $color } } }
+        { product_variants: { sizes: { id: { in: $size } } } }
+        { vendor: { id: { in: $brand } } }
+        { price: { gte: $minPrice } }
+        { price: { lte: $maxPrice } }
+        { categories: { id: { eq: $category } } }
+        { rating: { eq: $rating } }
+      ]
+    }
+    sort: $sortBy
+    pagination: {page: $page, pageSize: $perPage}
+  ) {
+    data {
+      id
+      attributes {
+        vendor {
+          data {
+            attributes {
+              name
+            }
+          }
+        }
+        is_new
+        is_top
+        stock
+        product_variants {
+          data {
+            id
+            attributes {
+              color
+              color_name
+              color
+              price
+              sizes {
+                data {
+                  id
+                  attributes {
                     name
                     slug
+                  }
                 }
-                sm_pictures {
-                    width
-                    height
-                    url
-                }
-                variants {
-                    color
-                    color_name
-                    price
-                    size {
-                        name
-                    }
-                }
+              }
             }
-            totalCount
+          }
         }
+        product_name
+        description
+        price
+        sale_price
+        end_discount_time
+        images {
+          data {
+            attributes {
+              url
+              height
+              width
+            }
+          }
+        }
+        categories {
+          data {
+            id
+            attributes {
+              name
+              slug
+            }
+          }
+        }
+      }
     }
+    meta {
+      pagination {
+        total
+        page
+        pageSize
+        pageCount
+      }
+    }
+  }
+}
 `
 
 export const GET_PRODUCT = gql`
-    query product($slug: String!, $onlyData: Boolean = false) {
-        product(demo: ${process.env.NEXT_PUBLIC_DEMO}, slug: $slug, onlyData: $onlyData) {
+           query productOne($slug: Int!, $onlyData: Boolean = false) {
+        productOne(id: $slug, onlyData: $onlyData) {
             single {
-                id
-                name
-                slug
-                price
-                sale_price
+                 data {
+              id
+              attributes {
                 review
-                ratings
-                until
+                rating
+                is_new
+                is_top
                 stock
-                top
-                featured
-                new
-                short_desc
-                category {
-                    name
-                    slug
-                }
-                brands {
-                    name
-                    slug
-                }
-                pictures {
-                    width
-                    height
-                    url
-                }
-                sm_pictures {
-                    width
-                    height
-                    url
-                }
-                variants {
-                    color
-                    color_name
-                    price
-                    size {
-                        name
+                product_variants {
+                  data {
+                    id
+                    attributes {
+                      price
+                      color
+                      color_name
+                      color
+                      price
+                      sizes {
+                        data {
+                          id
+                          attributes {
+                            name
+                            slug
+                          }
+                        }
+                      }
                     }
+                  }
+                  
                 }
+                product_name,
+                description,
+                price,
+                sale_price,
+                end_discount_time,
+                images {
+                  data {
+                    attributes {
+                      url
+                      height
+                      width
+                    }
+                  }
+                },
+                categories {
+                  data {
+                    id,
+                    attributes {
+                      name
+                      slug
+                    } 
+                  }
+                }
+              } 
+            }
             }
 
             prev @skip(if: $onlyData) {
-                slug
-                name
-                sm_pictures {
-                    width
-                    height
-                    url
+        data {
+              id
+              attributes {
+                  review
+                rating
+                is_new
+                is_top
+                stock
+                product_variants {
+                  data {
+                    id
+                    attributes {
+                      price
+                      color
+                      color_name
+                      color
+                      price
+                      sizes {
+                        data {
+                          id
+                          attributes {
+                            name
+                            slug
+                          }
+        
+                        }
+                      }
+                    }
+                  }
+                  
                 }
+                product_name,
+                description,
+                price,
+                sale_price,
+                end_discount_time,
+                images {
+                  data {
+                    attributes {
+                      url
+                      height
+                      width
+                    }
+                  }
+                },
+                categories {
+                  data {
+                    id,
+                    attributes {
+                      name
+                      slug
+                    } 
+                  }
+                }
+              } 
+            }
             }
 
             next @skip(if: $onlyData) {
-                slug
-                name
-                sm_pictures {
-                    width
-                    height
-                    url
+            data {
+              id
+              attributes {
+                review
+                rating
+                is_new
+                is_top
+                stock
+                product_variants {
+                  data {
+                    id
+                    attributes {
+                      price
+                      color
+                      color_name
+                      color
+                      price
+                      sizes {
+                        data {
+                          id
+                          attributes {
+                            name
+                            slug
+                          }
+        
+                        }
+                      }
+                    }
+                  }
+                  
                 }
+                product_name,
+                description,
+                price,
+                sale_price,
+                end_discount_time,
+                images {
+                  data {
+                    attributes {
+                      url
+                      height
+                      width
+                    }
+                  }
+                },
+                categories {
+                  data {
+                    id,
+                    attributes {
+                      name
+                      slug
+                    } 
+                  }
+                }
+              } 
+            }
             }
 
             related @skip(if: $onlyData) {
-                id
-                name
-                slug
-                price
-                sale_price
+               data {
+              id
+              attributes {
                 review
-                ratings
-                until
+                rating
+                is_new
+                is_top
                 stock
-                top
-                featured
-                new
-                category {
-                    name
-                    slug
-                }
-                sm_pictures {
-                    width
-                    height
-                    url
-                }
-                variants {
-                    color
-                    color_name
-                    price
-                    size {
-                        name
+                product_variants {
+                  data {
+                    id
+                    attributes {
+                      price
+                      color
+                      color_name
+                      color
+                      price
+                      sizes {
+                        data {
+                          id
+                          attributes {
+                            name
+                            slug
+                          }
+        
+                        }
+                      }
                     }
+                  }
+                  
                 }
+                product_name,
+                description,
+                price,
+                sale_price,
+                end_discount_time,
+                images {
+                  data {
+                    attributes {
+                      url
+                      height
+                      width
+                    }
+                  }
+                },
+                categories {
+                  data {
+                    id,
+                    attributes {
+                      name
+                      slug
+                    } 
+                  }
+                }
+              } 
+            }
             }
         }
     }
@@ -175,6 +376,260 @@ export const GET_ELEMENT_PRODUCTS = gql`
         }
     }
 `
+
+
+export const GET_HOME_DATA = gql`
+query Home {
+  home {
+    data {
+      attributes {
+        trending {
+          products {
+            data {
+              id
+              attributes {
+                is_new
+                is_top
+                stock
+                product_variants {
+                  data {
+                    id
+                    attributes {
+                      color
+                      color_name
+                      color
+                      price
+                      sizes {
+                        data {
+                          id
+                          attributes {
+                            name
+                            slug
+                          }
+        
+                        }
+                      }
+                    }
+                  }
+                  
+                }
+                product_name,
+                description,
+                price,
+                sale_price,
+                end_discount_time,
+                images {
+                  data {
+                    attributes {
+                      url
+                      height
+                      width
+                    }
+                  }
+                },
+                categories {
+                  data {
+                    id,
+                    attributes {
+                      name
+                      slug
+                    } 
+                  }
+                }
+              } 
+            }
+          }
+        }
+        deal {
+          deal_of_the_day_1{
+             data {
+              id
+              attributes {
+                is_new
+                is_top
+                stock
+                product_variants {
+                  data {
+                    id
+                    attributes {
+                      color
+                      color_name
+                      color
+                      price
+                      sizes {
+                        data {
+                          id
+                          attributes {
+                            name
+                            slug
+                          }
+        
+                        }
+                      }
+                    }
+                  }
+                  
+                }
+                product_name,
+                description,
+                price,
+                sale_price,
+                end_discount_time,
+                images {
+                  data {
+                    attributes {
+                      url
+                      height
+                      width
+                    }
+                  }
+                },
+                categories {
+                  data {
+                    id,
+                    attributes {
+                      name
+                      slug
+                    } 
+                  }
+                }
+              } 
+            }
+          },
+          deal_of_the_day_2{
+   data {
+              id
+              attributes {
+                is_new
+                is_top
+                stock
+                product_variants {
+                  data {
+                    id
+                    attributes {
+                      color
+                      color_name
+                      color
+                      price
+                      sizes {
+                        data {
+                          id
+                          attributes {
+                            name
+                            slug
+                          }
+        
+                        }
+                      }
+                    }
+                  }
+                  
+                }
+                product_name,
+                description,
+                price,
+                sale_price,
+                end_discount_time,
+                images {
+                  data {
+                    attributes {
+                      url
+                      height
+                      width
+                    }
+                  }
+                },
+                categories {
+                  data {
+                    id,
+                    attributes {
+                      name
+                      slug
+                    } 
+                  }
+                }
+              } 
+            }
+          }
+        }
+        new_arrival {
+          products {
+           data {
+              id
+              attributes {
+                is_new
+                is_top
+                stock
+                product_variants {
+                  data {
+                    id
+                    attributes {
+                      color
+                      color_name
+                      color
+                      price
+                      sizes {
+                        data {
+                          id
+                          attributes {
+                            name
+                            slug
+                          }
+        
+                        }
+                      }
+                    }
+                  }
+                  
+                }
+                product_name,
+                description,
+                price,
+                sale_price,
+                end_discount_time,
+                images {
+                  data {
+                    attributes {
+                      url
+                      height
+                      width
+                    }
+                  }
+                },
+                categories {
+                  data {
+                    id,
+                    attributes {
+                      name
+                      slug
+                    } 
+                  }
+                }
+              } 
+            }
+          }
+        }
+        vendor {
+          vendors {
+            data {
+              attributes {
+                logo {
+                  data {
+                    attributes {
+                      url
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+`
+
 
 export const GET_ELEMENT_POSTS = gql`
     query elementPosts {
@@ -291,64 +746,6 @@ export const GET_POST = gql`
                 name
                 slug
                 count
-            }
-        }
-    }
-`
-
-export const GET_HOME_DATA = gql`
-    query homeData {
-        homeData(demo: ${process.env.NEXT_PUBLIC_DEMO}) {
-            products {
-                id
-                name
-                slug
-                price
-                sale_price
-                review
-                ratings
-                until
-                stock
-                top
-                featured
-                new
-                category {
-                    name
-                    slug
-                }
-                sm_pictures {
-                    width
-                    height
-                    url
-                }
-                variants {
-                    color
-                    color_name
-                    price
-                    size {
-                        name
-                    }
-                }
-            }
-
-            posts {
-                id
-                author
-                comments
-                content
-                date
-                slug
-                title
-                type
-                blog_categories {
-                    name
-                    slug
-                }
-                image {
-                    width
-                    height
-                    url
-                }
             }
         }
     }

@@ -27,7 +27,7 @@ function PostThree ( props ) {
 
                             <LazyLoadImage
                                 alt="Post"
-                                src={ process.env.NEXT_PUBLIC_ASSET_URI + post.image[ 0 ].url }
+                                src={ process.env.NEXT_PUBLIC_ASSET_URI + post.image[ 0 ].attributes.url }
                                 threshold={ 500 }
                                 effect="blur"
                                 height="auto"
@@ -45,7 +45,7 @@ function PostThree ( props ) {
 
                                         <LazyLoadImage
                                             alt="Post"
-                                            src={ `${process.env.NEXT_PUBLIC_ASSET_URI + item.url}` }
+                                            src={ `${process.env.NEXT_PUBLIC_ASSET_URI + item.attributes.url}` }
                                             threshold={ 500 }
                                             effect="blur"
                                         />
@@ -72,7 +72,7 @@ function PostThree ( props ) {
                     in&nbsp;
                             { post.blog_categories.map( ( cat, index ) => (
                     <span key={ index }>
-                        <ALink href={ { pathname: '/blog/classic', query: { category: cat.slug } } }>{ cat.name }</ALink>
+                        <ALink href={ { pathname: '/blog/classic', query: { category: cat.slug } } }>{ cat.attributes.name }</ALink>
                         { index < post.blog_categories.length - 1 ? ', ' : '' }
                     </span>
                 ) ) }

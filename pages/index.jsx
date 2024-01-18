@@ -18,11 +18,10 @@ import { homeData, introSlider, brandSlider, fadeInUpShorter, fadeInLeftShorter,
 
 function Home () {
     const { data, loading, error } = useQuery( GET_HOME_DATA );
-    const products = data && data.homeData.products;
-    const dealProducts = attrFilter( data && data.homeData.products, 'until' ).slice( 0, 2 );
-    const newProducts = data && data.homeData.products.slice( 0, 8 );
-    const posts = data && data.homeData.posts;
-
+    const products = data && data.home.data.attributes.trending?.products?.data;
+    const dealProducts = data && [data.home.data.attributes.deal?.deal_of_the_day_1?.data, data.home.data.attributes.deal?.deal_of_the_day_2?.data];
+    const newProducts = data && data.home.data.attributes.new_arrival?.products?.data;
+    const vendor = data && data.home.data.attributes.vendor?.vendors.data;
     if ( error ) {
         return <div></div>
     }
@@ -204,9 +203,9 @@ function Home () {
                         <Reveal keyframes={ fadeIn } delay={ 100 } duration={ 500 } triggerOnce>
                             <OwlCarousel adClass="brands-border owl-simple brand-carousel mt-3 mb-3 cols-xl-7 cols-lg-5 cols-md-4 cols-sm-3 cols-2" options={ brandSlider }>
                                 {
-                                    homeData.brands.map( ( brand, index ) => (
+                                    vendor?.map( ( brand, index ) => (
                                         <ALink href="#" className="brand mr-0" key={ index } >
-                                            <img src={ brand.image } alt="brand" width={ brand.width } height={ brand.height } />
+                                            <img width={ 100 } height={ 30 } src={ process.env.NEXT_PUBLIC_ASSET_URI + brand.attributes.logo.data.attributes.url } alt="brand"  />
                                         </ALink>
                                     ) )
                                 }
@@ -267,10 +266,10 @@ function Home () {
                 </div>
             </div>
 
-            <div className="mb-2"></div>
-            <Reveal keyframes={ fadeIn } delay={ 100 } duration={ 1000 } triggerOnce>
-                <BlogCollection posts={ posts } loading={ loading } />
-            </Reveal>
+            {/*<div className="mb-2"></div>*/}
+            {/*<Reveal keyframes={ fadeIn } delay={ 100 } duration={ 1000 } triggerOnce>*/}
+            {/*    <BlogCollection posts={ posts } loading={ loading } />*/}
+            {/*</Reveal>*/}
 
             <NewsletterModal />
         </main>

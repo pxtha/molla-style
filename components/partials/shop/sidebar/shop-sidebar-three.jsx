@@ -74,7 +74,7 @@ function ShopSidebarThree ( props ) {
                                 {
                                     shopData.categories.map( ( item, index ) =>
                                         <div className="filter-item" key={ `cat_${index}` }>
-                                            <ALink className={ `${query.category == item.slug ? 'active' : ''}` } href={ { pathname: router.pathname, query: { category: item.slug } } } scroll={ false }>{ item.name }</ALink>
+                                            <ALink className={ `${query.category == item.id ? 'active' : ''}` } href={ { pathname: router.pathname, query: { category: item.id } } } scroll={ false }>{ item?.attributes?.product_name }</ALink>
                                             <span className="item-count">{ item.count }</span>
                                         </div>
                                     )
@@ -95,8 +95,8 @@ function ShopSidebarThree ( props ) {
                                                 <input type="checkbox"
                                                     className="custom-control-input"
                                                     id={ `brand-${index + 1}` }
-                                                    onChange={ e => onAttrClick( e, 'brand', item.slug ) }
-                                                    checked={ containsAttrInUrl( 'brand', item.slug ) ? true : false }
+                                                    onChange={ e => onAttrClick( e, 'brand', item.id ) }
+                                                    checked={ containsAttrInUrl( 'brand', item.id ) ? true : false }
                                                 />
                                                 <label className="custom-control-label" htmlFor={ `brand-${index + 1}` }>{ item.brand }</label>
                                             </div>
@@ -124,7 +124,7 @@ function ShopSidebarThree ( props ) {
                                                     onChange={ e => onPriceClick( item ) }
                                                     checked={ containsPriceInUrl( item ) ? true : false }
                                                 />
-                                                <label className="custom-control-label" htmlFor={ `price-${index + 1}` }>{ item.name }</label>
+                                                <label className="custom-control-label" htmlFor={ `price-${index + 1}` }>{ item?.attributes?.product_name }</label>
                                             </div>
                                         </div>
                                     ) )
