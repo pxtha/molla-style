@@ -158,8 +158,7 @@ export const attrFilter = function ( products = [], attr ) {
  * Scrolling to Page content section
  */
 export const scrollToPageContent = function () {
-    let to = document.querySelector( '.page-content' )
-        .offsetTop - 74;
+    let to = document.querySelector( '.page-content' )?.offsetTop - 74;
     if ( isSafariBrowser() || isEdgeBrowser() ) {
         let pos = window.pageYOffset;
         let timerId = setInterval( () => {

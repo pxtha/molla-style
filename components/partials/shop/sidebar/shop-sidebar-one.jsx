@@ -6,16 +6,26 @@ import 'react-input-range/lib/css/index.css';
 
 import ALink from '~/components/features/alink';
 import { shopData } from '~/utils/data';
+import {useQuery} from "@apollo/client";
+import {GET_FILTERS} from "~/server/queries";
 
 function ShopSidebarOne ( props ) {
     const { toggle = false } = props;
     const router = useRouter();
     const query = useRouter().query;
-    const [ priceRange, setRange ] = useState( { min: 0, max: 1000 } );
+    const [ priceRange, setRange ] = useState( { min: 0, max: 99999 } );
+    const { data, loading, error } = useQuery( GET_FILTERS );
+    const brand = data && data.vendors.data;
+    const colour = data && data.productVariants.data;
+    const size = data && data.sizes.data;
+    const category = data && data.categories.data;
+    if ( error ) {
+        return <div></div>
+    }
 
     useEffect( () => {
         if ( query.minPrice && query.maxPrice ) {
-            setRange( { min: parseInt( query.minPrice ), max: parseInt( query.maxPrice ) } );
+            setRange( { min: parseInt( query.minPrice ? query.minPrice : 0 ), max: parseInt( query.maxPrice ? query.maxPrice : 999999 ) } );
         } else {
             setRange( { min: 0, max: 1000 } );
         }
@@ -77,10 +87,10 @@ function ShopSidebarOne ( props ) {
                                     <div className="widget-body pt-0">
                                         <div className="filter-items filter-items-count">
                                             {
-                                                shopData.categories.map( ( item, index ) =>
+                                                !loading && category?.map( ( item, index ) =>
                                                     <div className="filter-item" key={ `cat_${index}` }>
-                                                        <ALink className={ `${query.category == item.id ? 'active' : ''}` } href={ {pathname: router.pathname, query: { type: query.type, category: item.id } } } scroll={ false }>{ item?.attributes?.product_name }</ALink>
-                                                        <span className="item-count">{ item.count }</span>
+                                                        <ALink className={ `${query.category == item.id ? 'active' : ''}` } href={ {pathname: router.pathname, query: { type: query.type, category: item.id } } } scroll={ false }>{ item?.attributes?.name }</ALink>
+                                                        <span className="item-count">{ item.attributes.products?.data?.length }</span>
                                                     </div>
                                                 )
                                             }
@@ -100,16 +110,16 @@ function ShopSidebarOne ( props ) {
                                         <div className="widget-body pt-0">
                                             <div className="filter-items">
                                                 {
-                                                    shopData.sizes.map( ( item, index ) => (
+                                                    !loading && size?.map( ( item, index ) => (
                                                         <div className="filter-item" key={ index }>
                                                             <div className="custom-control custom-checkbox">
                                                                 <input type="checkbox"
                                                                     className="custom-control-input"
-                                                                    id={ `size-${index + 1}` }
+                                                                    id={ item.id }
                                                                     onChange={ e => onAttrClick( e, 'size', item.id ) }
                                                                     checked={ containsAttrInUrl( 'size', item.id ) ? true : false }
                                                                 />
-                                                                <label className="custom-control-label" htmlFor={ `size-${index + 1}` }>{ item.size }</label>
+                                                                <label className="custom-control-label" htmlFor={ item.id }>{ item.attributes.name }</label>
                                                             </div>
                                                         </div>
                                                     ) )
@@ -131,8 +141,8 @@ function ShopSidebarOne ( props ) {
                                         <div className="widget-body pt-0">
                                             <div className="filter-colors">
                                                 {
-                                                    shopData.colors.map( ( item, index ) => (
-                                                        <ALink href={ getUrlForAttrs( 'color', item.color_name ) } className={ containsAttrInUrl( 'color', item.color_name ) ? 'selected' : '' } style={ { backgroundColor: item.color } } key={ index } scroll={ false }>
+                                                    !loading && colour?.map( ( item, index ) => (
+                                                        <ALink href={ getUrlForAttrs( 'color', item.id ) } className={ containsAttrInUrl( 'color', item.id ) ? 'selected' : '' } style={ { backgroundColor: item.attributes?.color } } key={ index } scroll={ false }>
                                                             <span className="sr-only">Color Name</span>
                                                         </ALink>
                                                     ) )
@@ -154,18 +164,16 @@ function ShopSidebarOne ( props ) {
                                         <div className="widget-body pt-0">
                                             <div className="filter-items">
                                                 {
-                                                    shopData.brands.map( ( item, index ) => (
-
+                                                    !loading && brand?.map( ( item, index ) => (
                                                         <div className="filter-item" key={ index }>
                                                             <div className="custom-control custom-checkbox">
-
                                                                 <input type="checkbox"
                                                                     className="custom-control-input"
                                                                     id={ `brand-${index + 1}` }
                                                                     onChange={ e => onAttrClick( e, 'brand', item.id ) }
                                                                     checked={ containsAttrInUrl( 'brand', item.id ) ? true : false }
                                                                 />
-                                                                <label className="custom-control-label" htmlFor={ `brand-${index + 1}` }>{ item.brand }</label>
+                                                                <label className="custom-control-label" htmlFor={ `brand-${index + 1}` }>{ item.attributes.name }</label>
                                                             </div>
                                                         </div>
                                                     ) )

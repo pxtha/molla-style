@@ -6,8 +6,8 @@ query products(
   $color: [ID]
   $size: [ID]
   $brand: [ID]
-  $minPrice: Float
-  $maxPrice: Float
+  $minPrice: Float = 0
+  $maxPrice: Float = 10000
   $category: ID
   $rating: Int
   $sortBy: [String]
@@ -341,43 +341,6 @@ export const GET_PRODUCT = gql`
     }
 `
 
-export const GET_ELEMENT_PRODUCTS = gql`
-    query elementProducts {
-        elementProducts {
-                id
-                name
-                slug
-                price
-                sale_price
-                review
-                ratings
-                until
-                stock
-                top
-                featured
-                new
-                category {
-                    name
-                    slug
-                }
-                sm_pictures {
-                    width
-                    height
-                    url
-                }
-                variants {
-                    color
-                    color_name
-                    price
-                    size {
-                        name
-                    }
-                }
-        }
-    }
-`
-
-
 export const GET_HOME_DATA = gql`
 query Home {
   home {
@@ -630,123 +593,211 @@ query Home {
 }
 `
 
-
-export const GET_ELEMENT_POSTS = gql`
-    query elementPosts {
-        elementPosts {
+export const GET_FILTERS = gql`
+query Filter{
+  vendors {
+    data {
+      id
+      attributes {
+        name
+      }
+    }
+  }
+  productVariants {
+    data {
+      id
+      attributes {
+        color
+        sizes {
+          data {
             id
-            author
-            comments
-            content
-            date
-            slug
-            title
-            type
-            blog_categories {
-                name
-                slug
+            attributes {
+              name
             }
-            image {
-                width
-                height
-                url
-            }
+          }
         }
+      }
     }
+  }
+  sizes {
+    data {
+      id
+      attributes {
+        name
+      }
+    }
+  }
+  categories {
+    data {
+      id
+      attributes {
+        name
+         products {
+        data {
+            id
+          }
+        }
+      }
+    }
+  }
+  
+}
 `
 
-export const GET_POSTS_BY_PAGE = gql`
-    query postsByPage ($page: String!, $category: String) {
-        postsByPage(page: $page, category: $category) {
-            data {
-                id
-                author
-                comments
-                content
-                date
-                slug
-                title
-                type
-                blog_categories {
-                    name
-                    slug
-                }
-                image {
-                    width
-                    height
-                    url
-                }
-            }
 
-            categories {
-                name
-                slug
-                count
-            }
-        }
-    }
-`
+// export const GET_ELEMENT_PRODUCTS = gql`
+//     query elementProducts {
+//         elementProducts {
+//                 id
+//                 name
+//                 slug
+//                 price
+//                 sale_price
+//                 review
+//                 ratings
+//                 until
+//                 stock
+//                 top
+//                 featured
+//                 new
+//                 category {
+//                     name
+//                     slug
+//                 }
+//                 sm_pictures {
+//                     width
+//                     height
+//                     url
+//                 }
+//                 variants {
+//                     color
+//                     color_name
+//                     price
+//                     size {
+//                         name
+//                     }
+//                 }
+//         }
+//     }
+// `
 
-export const GET_POST = gql`
-    query post($slug: String!) {
-        post(slug: $slug) {
-            single {
-                id
-                author
-                comments
-                content
-                date
-                slug
-                title
-                type
-                blog_categories {
-                    name
-                    slug
-                }
-                image {
-                    width
-                    height
-                    url
-                }
-            }
-
-            prev {
-                id
-                slug
-                title
-            }
-
-            next {
-                id
-                slug
-                title
-            }
-
-            related {
-                id
-                author
-                comments
-                content
-                date
-                slug
-                title
-                type
-                blog_categories {
-                    name
-                    slug
-                }
-                image {
-                    width
-                    height
-                    url
-                }
-            }
-
-            categories {
-                name
-                slug
-                count
-            }
-        }
-    }
-`
+//
+// export const GET_ELEMENT_POSTS = gql`
+//     query elementPosts {
+//         elementPosts {
+//             id
+//             author
+//             comments
+//             content
+//             date
+//             slug
+//             title
+//             type
+//             blog_categories {
+//                 name
+//                 slug
+//             }
+//             image {
+//                 width
+//                 height
+//                 url
+//             }
+//         }
+//     }
+// `
+//
+// export const GET_POSTS_BY_PAGE = gql`
+//     query postsByPage ($page: String!, $category: String) {
+//         postsByPage(page: $page, category: $category) {
+//             data {
+//                 id
+//                 author
+//                 comments
+//                 content
+//                 date
+//                 slug
+//                 title
+//                 type
+//                 blog_categories {
+//                     name
+//                     slug
+//                 }
+//                 image {
+//                     width
+//                     height
+//                     url
+//                 }
+//             }
+//
+//             categories {
+//                 name
+//                 slug
+//                 count
+//             }
+//         }
+//     }
+// `
+//
+// export const GET_POST = gql`
+//     query post($slug: String!) {
+//         post(slug: $slug) {
+//             single {
+//                 id
+//                 author
+//                 comments
+//                 content
+//                 date
+//                 slug
+//                 title
+//                 type
+//                 blog_categories {
+//                     name
+//                     slug
+//                 }
+//                 image {
+//                     width
+//                     height
+//                     url
+//                 }
+//             }
+//
+//             prev {
+//                 id
+//                 slug
+//                 title
+//             }
+//
+//             next {
+//                 id
+//                 slug
+//                 title
+//             }
+//
+//             related {
+//                 id
+//                 author
+//                 comments
+//                 content
+//                 date
+//                 slug
+//                 title
+//                 type
+//                 blog_categories {
+//                     name
+//                     slug
+//                 }
+//                 image {
+//                     width
+//                     height
+//                     url
+//                 }
+//             }
+//
+//             categories {
+//                 name
+//                 slug
+//                 count
+//             }
+//         }
+//     }
+// `

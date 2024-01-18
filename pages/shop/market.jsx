@@ -46,10 +46,10 @@ function ShopMarket () {
                 color: query.color ? query.color.split( ',' ) : [],
                 size: query.size ? query.size.split( ',' ) : [],
                 brand: query.brand ? query.brand.split( ',' ) : [],
-                minPrice: parseInt( query.minPrice ),
-                maxPrice: parseInt( query.maxPrice ),
+                minPrice: parseInt( query.minPrice ? query.minPrice : 0 ),
+                maxPrice: parseInt( query.maxPrice ? query.maxPrice : 999999 ),
                 category: query.category,
-                sortBy: query.sortBy ? query.sortBy : 'default',
+                sortBy: query.sortBy ? [query.sortBy] : ['price'],
                 page: query.page ? parseInt( query.page ) : 1,
                 perPage: perPage,
                 rating: query.rating ? query.rating.split( ',' ) : []
@@ -282,12 +282,12 @@ function ShopMarket () {
                                                 id="sortby"
                                                 className="form-control bg-white"
                                                 onChange={ onSortByChange }
-                                                value={ query.sortBy ? query.sortBy : 'default' }
+                                                value={ query.sortBy ? [query.sortBy] : ['price'] }
                                             >
-                                                <option value="default">Default</option>
-                                                <option value="featured">Most Popular</option>
+                                                <option value="price">Default</option>
+                                                <option value="is_top">Most Popular</option>
                                                 <option value="rating">Most Rated</option>
-                                                <option value="new">Date</option>
+                                                <option value="createdAt">Date</option>
                                             </select>
                                         </div>
                                     </div>

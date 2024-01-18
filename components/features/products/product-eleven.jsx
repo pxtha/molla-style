@@ -195,7 +195,7 @@ function ProductEleven ( props ) {
                 <div className="ratings-container">
                     <div className="ratings">
                         <div className="ratings-val" style={ { width: product.attributes.rating * 20 + '%' } }></div>
-                        <span className="tooltip-text">{ product.ratings.toFixed( 2 ) }</span>
+                        <span className="tooltip-text">{ product.attributes.rating?.toFixed( 2 ) }</span>
                     </div>
                     <span className="ratings-text">( { product.attributes.review } Reviews )</span>
                 </div>

@@ -382,7 +382,7 @@ module.exports = require("redux-saga/effects");;
 var __webpack_require__ = require("../webpack-runtime.js");
 __webpack_require__.C(exports);
 var __webpack_exec__ = function(moduleId) { return __webpack_require__(__webpack_require__.s = moduleId); }
-var __webpack_exports__ = __webpack_require__.X(0, ["vendors-node_modules_next_link_js","components_features_alink_jsx","components_features_owl-carousel_jsx-server_apollo_js-server_queries_js-store_cart_js-store_c-c5cbd2","utils_data_js"], function() { return __webpack_exec__("./pages/index.jsx"); });
+var __webpack_exports__ = __webpack_require__.X(0, ["vendors-node_modules_next_link_js","components_features_alink_jsx","server_apollo_js-server_queries_js-store_cart_js-store_compare_js-store_demo_js-store_wishlis-1733ec","utils_data_js","components_features_owl-carousel_jsx"], function() { return __webpack_exec__("./pages/index.jsx"); });
 module.exports = __webpack_exports__;
 
 })();

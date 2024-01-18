@@ -11,7 +11,6 @@ import { safeContent } from '~/utils';
 
 function HeaderSearch () {
     const router = useRouter( "" );
-    const [ cat, setCat ] = useState( "" );
     const [ searchTerm, setSearchTerm ] = useState( "" );
     const [ products, setProducts ] = useState( [] );
     const [ searchProducts, { data } ] = useLazyQuery( GET_PRODUCTS );
@@ -20,7 +19,6 @@ function HeaderSearch () {
 
     useEffect( () => {
         document.querySelector( "body" ).addEventListener( 'click', closeSearchForm );
-
         return ( () => {
             document.querySelector( "body" ).removeEventListener( 'click', closeSearchForm );
         } )
@@ -61,13 +59,12 @@ function HeaderSearch () {
                 searchProducts( {
                     variables: {
                         searchTerm: searchTerm,
-                        category: cat
                     }
                 } );
             }, 500 );
             setTimer( timerId );
         }
-    }, [ searchTerm, cat ] );
+    }, [ searchTerm ] );
 
     useEffect( () => {
         document.querySelector( '.header-search.show-results' ) && document.querySelector( '.header-search.show-results' ).classList.remove( 'show-results' );
@@ -87,9 +84,6 @@ function HeaderSearch () {
             .classList.remove( 'show' );
     }
 
-    function onCatSelect ( e ) {
-        setCat( e.target.value );
-    }
 
     function onSearchChange ( e ) {
         setSearchTerm( e.target.value );
@@ -107,7 +101,6 @@ function HeaderSearch () {
             pathname: '/shop/sidebar/list',
             query: {
                 searchTerm: searchTerm,
-                category: cat
             }
         } );
     }

@@ -37,10 +37,10 @@ function ShopNoSidebar() {
                 color: query.color ? query.color.split( ',' ) : [],
                 size: query.size ? query.size.split( ',' ) : [],
                 brand: query.brand ? query.brand.split( ',' ) : [],
-                minPrice: parseInt( query.minPrice ),
-                maxPrice: parseInt( query.maxPrice ),
+                minPrice: parseInt( query.minPrice ? query.minPrice : 0 ),
+                maxPrice: parseInt( query.maxPrice ? query.maxPrice : 999999 ),
                 category: query.category,
-                sortBy: query.sortBy ? query.sortBy : 'default',
+                sortBy: query.sortBy ? [query.sortBy] : ['price'],
                 page: 1,
                 perPage: perPage,
             }
@@ -55,10 +55,10 @@ function ShopNoSidebar() {
                 color: query.color ? query.color.split( ',' ) : [],
                 size: query.size ? query.size.split( ',' ) : [],
                 brand: query.brand ? query.brand.split( ',' ) : [],
-                minPrice: parseInt( query.minPrice ),
-                maxPrice: parseInt( query.maxPrice ),
+                minPrice: parseInt( query.minPrice ? query.minPrice : 0 ),
+                maxPrice: parseInt( query.maxPrice ? query.maxPrice : 999999 ),
                 category: query.category,
-                sortBy: query.sortBy ? query.sortBy : 'default',
+                sortBy: query.sortBy ? [query.sortBy] : ['price'],
                 page: 1,
                 from: perPage,
                 perPage: 4,
@@ -194,7 +194,7 @@ function ShopNoSidebar() {
                                         id="sortby"
                                         className="form-control"
                                         onChange={ onSortByChange }
-                                        value={ query.sortBy ? query.sortBy : 'default' }
+                                        value={ query.sortBy ? [query.sortBy] : ['price'] }
                                     >
                                         <option value="default">Default</option>
                                         <option value="featured">Most Popular</option>
