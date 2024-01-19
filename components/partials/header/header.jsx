@@ -8,9 +8,12 @@ import WishlistMenu from '~/components/partials/header/partials/wishlist-menu';
 import CartMenu from '~/components/partials/header/partials/cart-menu';
 import MainMenu from '~/components/partials/header/partials/main-menu';
 import StickyHeader from '~/components/features/sticky-header';
+import { getToken } from "~/utils/manageLocalStorage";
 
 function Header () {
+    const token = getToken()
     const router = useRouter();
+    const path = router.asPath;
     const [ containerClass, setContainerClass ] = useState( 'container' );
 
     function openMobileMenu () {
@@ -44,10 +47,12 @@ function Header () {
                             <ALink href="#" className="social-icon social-instagram" title="Pinterest"><i className="icon-instagram"></i></ALink>
                         </div>
                         <ul className="top-menu top-link-menu">
-                            <li>
-                                <ALink href="#">Links</ALink>
+                            <li className="breadcrumb-item active">
                                 <ul>
-                                    <LoginModal />
+                                    {token
+                                        ? <a className={ path.indexOf( "shop/dashboard" ) > -1 ? "active" : '' } href="/shop/dashboard">My account</a>
+                                        : <LoginModal/>
+                                    }
                                 </ul>
                             </li>
                         </ul>
