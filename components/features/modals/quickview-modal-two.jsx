@@ -98,9 +98,9 @@ function QuickViewModalTwo ( props ) {
                                         <>
                                             <div className="product-sm col-lg-2 row p-0 order-lg-first order-last px-2 p-lg-0 m-lg-0 position-relative" id="owl-dots">
                                                 {
-                                                    product.attributes.images.data.map( ( item, index ) =>
-                                                        <a href="#" className={ `product-gallery-item h-auto p-lg-0 mb-0 mb-lg-1 ${0 === index ? 'active' : ''}` } key={ product.id + '-' + index } onClick={ e => changeBgImage( e, index ) }>
-                                                            <img src={ process.env.NEXT_PUBLIC_ASSET_URI + product.attributes.images?.data[ index ].attributes.url } alt="product back" />
+                                                    product?.attributes.images.data.map( ( item, index ) =>
+                                                        <a href="#" className={ `product-gallery-item h-auto p-lg-0 mb-0 mb-lg-1 ${0 === index ? 'active' : ''}` } key={ product?.id + '-' + index } onClick={ e => changeBgImage( e, index ) }>
+                                                            <img src={ process.env.NEXT_PUBLIC_ASSET_URI + product?.attributes.images?.data[ index ].attributes.url } alt="product back" />
                                                         </a>
                                                     )
                                                 }
@@ -108,30 +108,30 @@ function QuickViewModalTwo ( props ) {
 
                                             <div className="product-lg mb-1 mb-lg-0 col-lg-10 pl-lg-3 pl-0 pr-0 pr-lg-3 order-lg-last order-first">
                                                 {
-                                                    product.attributes.is_new ?
+                                                    product?.attributes.is_new ?
                                                         <span className="product-label label-new">New</span>
                                                         : ""
                                                 }
 
                                                 {
-                                                    product.attributes.sale_price ?
+                                                    product?.attributes.sale_price ?
                                                         <span className="product-label label-sale">Sale</span>
                                                         : ""
                                                 }
 
                                                 {
-                                                    product.attributes.top ?
+                                                    product?.attributes.top ?
                                                         <span className="product-label label-top">Top</span>
                                                         : ""
                                                 }
 
                                                 {
-                                                    product.attributes.stock == 0 ?
+                                                    product?.attributes.stock == 0 ?
                                                         <span className="product-label label-out">Out of Stock</span>
                                                         : ""
                                                 }
                                                 <OwlCarousel adClass="product-gallery-carousel owl-full owl-nav-dark cols-1 cols-md-2 cols-lg-3" onChangeRef={ setCarouselRef } events={ events } options={ { 'dots': false, 'nav': false } }>
-                                                    { product.attributes.images.data.map( ( item, index ) =>
+                                                    { product?.attributes.images.data.map( ( item, index ) =>
                                                         <Magnifier
                                                             imageSrc={ process.env.NEXT_PUBLIC_ASSET_URI + item.attributes.url }
                                                             imageAlt="product"
@@ -140,7 +140,7 @@ function QuickViewModalTwo ( props ) {
                                                             mouseActivation="hover"
                                                             cursorStyleActive="crosshair"
                                                             className="product-gallery-image"
-                                                            style={ { paddingTop: `${product.attributes.images.data[ 0 ].attributes.height / product.attributes.images.data[ 0 ].attributes.width * 100}%` } }
+                                                            style={ { paddingTop: `${product?.attributes.images.data[ 0 ].attributes.height / product?.attributes.images.data[ 0 ].attributes.width * 100}%` } }
                                                             key={ "gallery-" + index }
                                                         />
                                                     ) }

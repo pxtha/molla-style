@@ -21,12 +21,12 @@ function ProductSeven ( props ) {
     useEffect( () => {
         let min = minPrice;
         let max = maxPrice;
-        product.attributes.product_variants.data.map( item => {
+        product?.attributes.product_variants.data.map( item => {
             if ( min > item.attributes.price ) min = item.attributes.price;
             if ( max < item.attributes.price ) max = item.attributes.price;
         }, [] );
 
-        if ( product.attributes.product_variants.data.length == 0 ) {
+        if ( product?.attributes.product_variants.data.length == 0 ) {
             min = product?.attributes?.sale_price
                 ? product?.attributes?.sale_price
                 : product?.attributes?.price;
@@ -60,14 +60,14 @@ function ProductSeven ( props ) {
 
     function onQuickView ( e ) {
         e.preventDefault();
-        props.showQuickView( product.id );
+        props.showQuickView( product?.id );
     }
 
     return (
         <div className="product product-6 no-span">
             <figure className="product-media">
                 {
-                    product.attributes.is_new ?
+                    product?.attributes.is_new ?
                         <span className="product-label">New</span>
                         : ""
                 }
@@ -79,7 +79,7 @@ function ProductSeven ( props ) {
                 }
 
                 {
-                    product.attributes.top ?
+                    product?.attributes.top ?
                         <span className="product-label">Top</span>
                         : ""
                 }
@@ -90,19 +90,19 @@ function ProductSeven ( props ) {
                         : ""
                 }
 
-                <ALink href={ `/product/default/${product.id}` }>
+                <ALink href={ `/product/default/${product?.id}` }>
                     <LazyLoadImage
                         alt="product"
-                        src={ product.attributes.images?.data ? process.env.NEXT_PUBLIC_ASSET_URI + product.attributes.images?.data[ 0 ]?.attributes?.url : "" }
+                        src={ product?.attributes.images?.data ? process.env.NEXT_PUBLIC_ASSET_URI + product?.attributes.images?.data[ 0 ]?.attributes?.url : "" }
                         threshold={ 500 }
                         effect="black and white"
                         wrapperClassName="product-image"
                     />
                     {
-                        product.attributes.images?.data.length >= 2 ?
+                        product?.attributes.images?.data.length >= 2 ?
                             <LazyLoadImage
                                 alt="product"
-                                src={ process.env.NEXT_PUBLIC_ASSET_URI + product.attributes.images?.data[ 1 ].attributes.url }
+                                src={ process.env.NEXT_PUBLIC_ASSET_URI + product?.attributes.images?.data[ 1 ].attributes.url }
                                 threshold={ 500 }
                                 effect="black and white"
                                 wrapperClassName="product-image-hover"
@@ -126,19 +126,19 @@ function ProductSeven ( props ) {
             <div className="product-body">
                 <div className="product-cat">
                     {
-                        product.attributes?.categories?.data.map( ( item, index ) => (
+                        product?.attributes?.categories?.data.map( ( item, index ) => (
                             <React.Fragment key={ item.id + '-' + index }>
                                 <ALink href={ { pathname: '/shop/sidebar/list', query: { category: item.id } } }>
                                     { item.attributes.name }
                                 </ALink>
-                                { index < product.attributes?.categories?.data.length - 1 ? ', ' : "" }
+                                { index < product?.attributes?.categories?.data.length - 1 ? ', ' : "" }
                             </React.Fragment>
                         ) )
                     }
                 </div>
 
                 <h3 className="product-title">
-                    <ALink href={ `/product/default/${product.id}` }>{ product?.attributes?.product_name }</ALink>
+                    <ALink href={ `/product/default/${product?.id}` }>{ product?.attributes?.product_name }</ALink>
                 </h3>
 
                 {
@@ -148,31 +148,31 @@ function ProductSeven ( props ) {
                         </div>
                         :
                         minPrice == maxPrice ?
-                            <div className="product-price">${ minPrice.toFixed( 2 ) }</div>
+                            <div className="product-price">${ minPrice?.toFixed( 2 ) }</div>
                             :
-                            product.attributes.product_variants.data.length == 0 ?
+                            product?.attributes.product_variants.data.length == 0 ?
                                 <div className="product-price">
-                                    <span className="new-price">${ minPrice.toFixed( 2 ) }</span>
+                                    <span className="new-price">${ minPrice?.toFixed( 2 ) }</span>
                                     <span className="old-price">${ maxPrice.toFixed( 2 ) }</span>
                                 </div>
                                 :
-                                <div className="product-price">${ minPrice.toFixed( 2 ) }&ndash;${ maxPrice.toFixed( 2 ) }</div>
+                                <div className="product-price">${ minPrice?.toFixed( 2 ) }&ndash;${ maxPrice.toFixed( 2 ) }</div>
                 }
 
                 <div className="ratings-container d-none d-xl-block">
                     <div className="ratings">
-                        <div className="ratings-val" style={ { width: product.attributes.rating * 20 + '%' } }></div>
-                        <span className="tooltip-text">{ product.attributes.rating?.toFixed( 2 ) }</span>
+                        <div className="ratings-val" style={ { width: product?.attributes.rating * 20 + '%' } }></div>
+                        <span className="tooltip-text">{ product?.attributes.rating?.toFixed( 2 ) }</span>
                     </div>
-                    <span className="ratings-text">( { product.attributes.review } Reviews )</span>
+                    <span className="ratings-text">( { product?.attributes.review } Reviews )</span>
                 </div>
 
                 {
                     product?.attributes?.stock && product?.attributes?.stock !== 0 ?
                         <div className="product-action">
                             {
-                                product.attributes.product_variants.data.length > 0 ?
-                                    <ALink href={ `/product/default/${product.id}` } className="btn-product btn-cart btn-select">
+                                product?.attributes.product_variants.data.length > 0 ?
+                                    <ALink href={ `/product/default/${product?.id}` } className="btn-product btn-cart btn-select">
                                         <span>select options</span>
                                     </ALink>
                                     :

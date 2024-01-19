@@ -17,7 +17,7 @@ const initialState = {
 const compareReducer = ( state = initialState, action ) => {
     switch ( action.type ) {
         case actionTypes.addToCompare:
-            var findIndex = state.data.findIndex( item => item.id == action.payload.product.id );
+            var findIndex = state.data.findIndex( item => item.id == action.payload.product?.id );
             if ( findIndex == -1 ) {
                 return {
                     data: [
@@ -29,7 +29,7 @@ const compareReducer = ( state = initialState, action ) => {
 
         case actionTypes.removeFromCompare:
             return {
-                data: state.data.filter( item => item.id != action.payload.product.id )
+                data: state.data.filter( item => item.id != action.payload.product?.id )
             };
 
         case actionTypes.clearAllFromCompare:

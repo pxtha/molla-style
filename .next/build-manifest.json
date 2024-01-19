@@ -34,10 +34,10 @@
       "static/chunks/main.js",
       "static/chunks/pages/_error.js"
     ],
-    "/shop/sidebar/[type]": [
+    "/product/default/[slug]": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
-      "static/chunks/pages/shop/sidebar/[type].js"
+      "static/chunks/pages/product/default/[slug].js"
     ]
   },
   "ampFirstPages": []

@@ -29,14 +29,14 @@ function HeaderSearch () {
             setProducts( result.reduce( ( acc, product ) => {
                 let max = 0;
                 let min = 999999;
-                product.attributes.product_variants.data.map( item => {
+                product?.attributes.product_variants.data.map( item => {
                     if ( min > item.attributes.price ) min = item.attributes.price;
                     if ( max < item.attributes.price ) max = item.attributes.price;
                 }, [] );
 
-                if ( product.attributes.product_variants.data.length == 0 ) {
-                    min = product.attributes.sale_price
-                        ? product.attributes.sale_price
+                if ( product?.attributes.product_variants.data.length == 0 ) {
+                    min = product?.attributes.sale_price
+                        ? product?.attributes.sale_price
                         : product?.attributes?.price;
                     max = product?.attributes?.price;
                 }
@@ -126,26 +126,26 @@ function HeaderSearch () {
                                 <div className="autocomplete-suggestions">
                                     {
                                         searchTerm.length > 2 && products?.map( ( product, index ) => (
-                                            <ALink href={ `/product/default/${product.id}` } className="autocomplete-suggestion" key={ `search-result-${index}` }>
-                                                <LazyLoadImage src={ process.env.NEXT_PUBLIC_ASSET_URI + product.attributes.images?.data[ 0 ].attributes.url } width={ 40 } height={ 40 } alt="product" />
-                                                <div className="search-name" dangerouslySetInnerHTML={ safeContent( matchEmphasize( product.attributes.product_name ) ) }></div>
+                                            <ALink href={ `/product/default/${product?.id}` } className="autocomplete-suggestion" key={ `search-result-${index}` }>
+                                                <LazyLoadImage src={ process.env.NEXT_PUBLIC_ASSET_URI + product?.attributes.images?.data[ 0 ].attributes.url } width={ 40 } height={ 40 } alt="product" />
+                                                <div className="search-name" dangerouslySetInnerHTML={ safeContent( matchEmphasize( product?.attributes.product_name ) ) }></div>
                                                 <span className="search-price">
                                                     {
-                                                        product.attributes.stock == 0 ?
+                                                        product?.attributes.stock == 0 ?
                                                             <div className="product-price mb-0">
                                                                 <span className="out-price">${ product?.attributes?.price.toFixed( 2 ) }</span>
                                                             </div>
                                                             :
                                                             product.minPrice == product.maxPrice ?
-                                                                <div className="product-price mb-0">${ product.minPrice.toFixed( 2 ) }</div>
+                                                                <div className="product-price mb-0">${ product.minPrice?.toFixed( 2 ) }</div>
                                                                 :
-                                                                product.attributes.product_variants.data.length == 0 ?
+                                                                product?.attributes.product_variants.data.length == 0 ?
                                                                     <div className="product-price mb-0">
-                                                                        <span className="new-price">${ product.minPrice.toFixed( 2 ) }</span>
+                                                                        <span className="new-price">${ product.minPrice?.toFixed( 2 ) }</span>
                                                                         <span className="old-price">${ product.maxPrice.toFixed( 2 ) }</span>
                                                                     </div>
                                                                     :
-                                                                    <div className="product-price mb-0">${ product.minPrice.toFixed( 2 ) }&ndash;${ product.maxPrice.toFixed( 2 ) }</div>
+                                                                    <div className="product-price mb-0">${ product.minPrice?.toFixed( 2 ) }&ndash;${ product.maxPrice.toFixed( 2 ) }</div>
                                                     }
                                                 </span>
                                             </ALink>

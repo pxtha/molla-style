@@ -9,12 +9,12 @@ function ProductEight ( props ) {
     useEffect( () => {
         let min = minPrice;
         let max = maxPrice;
-        product.attributes.product_variants.data.map( item => {
+        product?.attributes.product_variants.data.map( item => {
             if ( min > item.attributes.price ) min = item.attributes.price;
             if ( max < item.attributes.price ) max = item.attributes.price;
         }, [] );
 
-        if ( product.attributes.product_variants.data.length == 0 ) {
+        if ( product?.attributes.product_variants.data.length == 0 ) {
             min = product?.attributes?.sale_price
                 ? product?.attributes?.sale_price
                 : product?.attributes?.price;
@@ -28,9 +28,9 @@ function ProductEight ( props ) {
     return (
         <div className="product product-sm">
             <figure className="product-media">
-                <ALink href={ `/product/default/${product.id}` }>
+                <ALink href={ `/product/default/${product?.id}` }>
                     <img
-                        src={ product.attributes.images?.data ? process.env.NEXT_PUBLIC_ASSET_URI + product.attributes.images?.data[ 0 ]?.attributes?.url : "" }
+                        src={ product?.attributes.images?.data ? process.env.NEXT_PUBLIC_ASSET_URI + product?.attributes.images?.data[ 0 ]?.attributes?.url : "" }
                         alt="Product"
                         className="product-image"
                     />
@@ -39,7 +39,7 @@ function ProductEight ( props ) {
 
             <div className="product-body">
                 <h5 className="product-title">
-                    <ALink href={ `/product/default/${product.id}` }>{ product?.attributes?.product_name }</ALink>
+                    <ALink href={ `/product/default/${product?.id}` }>{ product?.attributes?.product_name }</ALink>
                 </h5>
                 {
                     !product?.attributes?.stock || product?.attributes?.stock == 0 ?
@@ -48,15 +48,15 @@ function ProductEight ( props ) {
                         </div>
                         :
                         minPrice == maxPrice ?
-                            <div className="product-price">${ minPrice.toFixed( 2 ) }</div>
+                            <div className="product-price">${ minPrice?.toFixed( 2 ) }</div>
                             :
-                            product.attributes.product_variants.data.length == 0 ?
+                            product?.attributes.product_variants.data.length == 0 ?
                                 <div className="product-price">
-                                    <span className="new-price">${ minPrice.toFixed( 2 ) }</span>
+                                    <span className="new-price">${ minPrice?.toFixed( 2 ) }</span>
                                     <span className="old-price">${ maxPrice.toFixed( 2 ) }</span>
                                 </div>
                                 :
-                                <div className="product-price">${ minPrice.toFixed( 2 ) }&ndash;${ maxPrice.toFixed( 2 ) }</div>
+                                <div className="product-price">${ minPrice?.toFixed( 2 ) }&ndash;${ maxPrice.toFixed( 2 ) }</div>
                 }
             </div>
         </div>

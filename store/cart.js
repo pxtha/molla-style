@@ -17,10 +17,10 @@ const initialState = {
 const cartReducer = ( state = initialState, action ) => {
     switch ( action.type ) {
         case actionTypes.addToCart:
-            var findIndex = state.data.findIndex( item => item.id == action.payload.product.id );
+            var findIndex = state.data.findIndex( item => item.id == action.payload.product?.id );
             let qty = action.payload.qty ? action.payload.qty : 1;
-            if ( findIndex !== -1 && action.payload.product.attributes.product_variants.data.length > 0 ) {
-                findIndex = state.data.findIndex( item => item?.attributes?.product_name == action.payload.product.attributes.product_name );
+            if ( findIndex !== -1 && action.payload.product?.attributes.product_variants.data.length > 0 ) {
+                findIndex = state.data.findIndex( item => item?.attributes?.product_name == action.payload.product?.attributes.product_name );
             }
 
             if ( findIndex !== -1 ) {
@@ -31,7 +31,7 @@ const cartReducer = ( state = initialState, action ) => {
                                 acc.push( {
                                     ...product,
                                     qty: product.qty + qty,
-                                    sum: ( action.payload.product.attributes.sale_price ? action.payload.product.attributes.sale_price : action.payload.product?.attributes?.price ) * ( product.qty + qty )
+                                    sum: ( action.payload.product?.attributes.sale_price ? action.payload.product?.attributes.sale_price : action.payload.product?.attributes?.price ) * ( product.qty + qty )
                                 } );
                             } else {
                                 acc.push( product );
@@ -48,8 +48,8 @@ const cartReducer = ( state = initialState, action ) => {
                         {
                             ...action.payload.product,
                             qty: qty,
-                            price: action.payload.product.attributes.sale_price ? action.payload.product.attributes.sale_price : action.payload.product?.attributes?.price,
-                            sum: qty * ( action.payload.product.attributes.sale_price ? action.payload.product.attributes.sale_price : action.payload.product?.attributes?.price )
+                            price: action.payload.product?.attributes.sale_price ? action.payload.product?.attributes.sale_price : action.payload.product?.attributes?.price,
+                            sum: qty * ( action.payload.product?.attributes.sale_price ? action.payload.product?.attributes.sale_price : action.payload.product?.attributes?.price )
                         }
                     ]
                 };
@@ -58,8 +58,8 @@ const cartReducer = ( state = initialState, action ) => {
             return {
                 data: [
                     ...state.data.filter( item => {
-                        if ( item.id !== action.payload.product.id ) return true;
-                        if ( item?.attributes?.product_name !== action.payload.product.attributes.product_name ) return true;
+                        if ( item.id !== action.payload.product?.id ) return true;
+                        if ( item?.attributes?.product_name !== action.payload.product?.attributes.product_name ) return true;
                         return false;
                     } )
                 ]

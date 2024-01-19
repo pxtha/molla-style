@@ -26,7 +26,7 @@ export const cartQtyTotal = cartItems => {
  * @param { Object } product 
  */
 export const isInCart = ( cartItems, product ) => {
-    return cartItems.find( item => item.id == product.id ) ? true : false;
+    return cartItems.find( item => item.id == product?.id ) ? true : false;
 }
 
 /**
@@ -36,12 +36,12 @@ export const isInCart = ( cartItems, product ) => {
  * @param { Number } qty 
  */
 export const canAddToCart = ( cartItems, product, qty ) => {
-    let find = cartItems.find( item => item.id == product.id );
+    let find = cartItems.find( item => item.id == product?.id );
     if ( find ) {
-        if ( product.attributes.stock == 0 || ( product.attributes.stock < ( find.qty + qty ) ) ) return false;
+        if ( product?.attributes.stock == 0 || ( product?.attributes.stock < ( find.qty + qty ) ) ) return false;
         else return true;
     } else {
-        if ( product.attributes.stock == 0 || ( product.attributes.stock < qty ) ) return false;
+        if ( product?.attributes.stock == 0 || ( product?.attributes.stock < qty ) ) return false;
         else return true;
     }
 }
@@ -52,7 +52,7 @@ export const canAddToCart = ( cartItems, product, qty ) => {
  * @param {Object} product 
  */
 export const isInWishlist = ( wishlist, product ) => {
-    return product && wishlist.findIndex( item => item.id == product.id ) > -1;
+    return product && wishlist.findIndex( item => item.id == product?.id ) > -1;
 }
 
 /**
@@ -61,7 +61,7 @@ export const isInWishlist = ( wishlist, product ) => {
  * @param {Object} product 
  */
 export const isInCompare = ( compare, product ) => {
-    return product && compare.findIndex( item => item.id == product.id ) > -1;
+    return product && compare.findIndex( item => item.id == product?.id ) > -1;
 }
 
 

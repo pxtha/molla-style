@@ -101,12 +101,22 @@ query products(
 `
 
 export const GET_PRODUCT = gql`
-           query productOne($slug: Int!, $onlyData: Boolean = false) {
+         query productOne($slug: Int!, $onlyData: Boolean = false) {
         productOne(id: $slug, onlyData: $onlyData) {
             single {
                  data {
               id
               attributes {
+                reviews {
+                  data {
+                    attributes {
+                      name
+                      rating
+                      comment
+                      createdAt
+                    }
+                  }
+                }
                 review
                 rating
                 is_new
@@ -644,7 +654,34 @@ query Filter{
 }
 `
 
-
+export const CREATE_REVIEW = gql`
+mutation createR($name:String, $comment:String,$email:String,$rating:Int,$product:ID) {
+  createReview(data:{
+    comment:$comment
+    email:$email
+    rating: $rating
+    product: $product
+    name: $name
+  }){
+    data{
+      id
+      attributes {
+        comment
+        name
+        email
+        rating
+        product {
+          data {
+            attributes {
+              product_name
+            }
+          }
+        }
+      }
+    }
+  }
+}
+`
 // export const GET_ELEMENT_PRODUCTS = gql`
 //     query elementProducts {
 //         elementProducts {

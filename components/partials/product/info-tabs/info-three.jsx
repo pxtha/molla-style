@@ -58,7 +58,7 @@ function InfoThree ( props ) {
                             We hope you’ll love every purchase, but if you ever need to return an item you can do so within a month of receipt. For full details of how to make a return, please view our <ALink href="#">Returns information</ALink></p>
                 </div>
             </Card>
-            <Card title={ `Reviews (${product.attributes.review})` } adClass="card-box card-sm">
+            <Card title={ `Reviews (${product?.attributes.review})` } adClass="card-box card-sm">
                 <div className="reviews">
                     <div className="review">
                         <div className="row no-gutters" >
@@ -66,8 +66,8 @@ function InfoThree ( props ) {
                                 <h4><ALink href="#">Samanta J.</ALink></h4>
                                 <div className="ratings-container">
                                     <div className="ratings">
-                                        <div className="ratings-val" style={ { width: product.attributes.rating * 20 + '%' } }></div>
-                                        <span className="tooltip-text">{ product.attributes.rating?.toFixed( 2 ) }</span>
+                                        <div className="ratings-val" style={ { width: product?.attributes.rating * 20 + '%' } }></div>
+                                        <span className="tooltip-text">{ product?.attributes.rating?.toFixed( 2 ) }</span>
                                     </div>
                                 </div>
                                 <span className="review-date mb-1">6 days ago</span>
@@ -93,8 +93,8 @@ function InfoThree ( props ) {
                                 <h4><ALink href="#">John Doe</ALink></h4>
                                 <div className="ratings-container">
                                     <div className="ratings">
-                                        <div className="ratings-val" style={ { width: product.attributes.rating * 20 + '%' } }></div>
-                                        <span className="tooltip-text">{ product.attributes.rating?.toFixed( 2 ) }</span>
+                                        <div className="ratings-val" style={ { width: product?.attributes.rating * 20 + '%' } }></div>
+                                        <span className="tooltip-text">{ product?.attributes.rating?.toFixed( 2 ) }</span>
                                     </div>
                                 </div>
                                 <span className="review-date mb-1">5 days ago</span>

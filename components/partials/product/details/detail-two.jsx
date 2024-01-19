@@ -28,7 +28,7 @@ function DetailTwo ( props ) {
         let min = 99999;
         let max = 0;
 
-        setVariationGroup( product.attributes.product_variants.data.reduce( ( acc, cur ) => {
+        setVariationGroup( product?.attributes.product_variants.data.reduce( ( acc, cur ) => {
             cur.attributes.sizes.data.map( item => {
                 acc.push( {
                     color: cur.attributes.color,
@@ -42,9 +42,9 @@ function DetailTwo ( props ) {
             return acc;
         }, [] ) );
 
-        if ( product.attributes.product_variants.data.length == 0 ) {
-            min = product.attributes.sale_price
-                ? product.attributes.sale_price
+        if ( product?.attributes.product_variants.data.length == 0 ) {
+            min = product?.attributes.sale_price
+                ? product?.attributes.sale_price
                 : product?.attributes?.price;
             max = product?.attributes?.price;
         }
@@ -114,7 +114,7 @@ function DetailTwo ( props ) {
             }, [] );
         }
 
-        setColorArray( product.attributes.product_variants.data.reduce( ( acc, cur ) => {
+        setColorArray( product?.attributes.product_variants.data.reduce( ( acc, cur ) => {
             if (
                 tempArray.findIndex( item => item.color == cur.attributes.color ) == -1
             ) {
@@ -187,11 +187,11 @@ function DetailTwo ( props ) {
         if ( e.currentTarget.classList.contains( 'btn-disabled' ) ) return;
 
         let newProduct = { ...product };
-        if ( product.attributes.product_variants.data.length > 0 ) {
+        if ( product?.attributes.product_variants.data.length > 0 ) {
             newProduct = {
                 ...product,
                 name:
-                    product.attributes.product_name +
+                    product?.attributes.product_name +
                     ' - ' +
                     selectedVariant.colorName +
                     ', ' +
@@ -210,47 +210,47 @@ function DetailTwo ( props ) {
 
     return (
         <div className="product-details product-details-centered">
-            <h1 className="product-title">{ product.attributes.product_name }</h1>
+            <h1 className="product-title">{ product?.attributes.product_name }</h1>
 
             <div className="ratings-container">
                 <div className="ratings">
-                    <div className="ratings-val" style={ { width: product.attributes.rating * 20 + '%' } }></div>
-                    <span className="tooltip-text">{ product.attributes.rating?.toFixed( 2 ) }</span>
+                    <div className="ratings-val" style={ { width: product?.attributes.rating * 20 + '%' } }></div>
+                    <span className="tooltip-text">{ product?.attributes.rating?.toFixed( 2 ) }</span>
                 </div>
-                <span className="ratings-text">( { product.attributes.review } Reviews )</span>
+                <span className="ratings-text">( { product?.attributes.review } Reviews )</span>
             </div>
 
             {
-                product.attributes.stock == 0 ?
+                product?.attributes.stock == 0 ?
                     <div className="product-price">
                         <span className="out-price">
                             {
                                 minPrice == maxPrice ?
                                     <span>${ product?.attributes?.price.toFixed( 2 ) }</span>
                                     :
-                                    <span>${ minPrice.toFixed( 2 ) }&ndash;${ maxPrice.toFixed( 2 ) }</span>
+                                    <span>${ minPrice?.toFixed( 2 ) }&ndash;${ maxPrice.toFixed( 2 ) }</span>
                             }
                         </span>
                     </div>
                     :
                     minPrice == maxPrice ?
-                        <div className="product-price">${ minPrice.toFixed( 2 ) }</div>
+                        <div className="product-price">${ minPrice?.toFixed( 2 ) }</div>
                         :
-                        product.attributes.product_variants.data.length == 0 ?
+                        product?.attributes.product_variants.data.length == 0 ?
                             <div className="product-price">
-                                <span className="new-price">${ minPrice.toFixed( 2 ) }</span>
+                                <span className="new-price">${ minPrice?.toFixed( 2 ) }</span>
                                 <span className="old-price">${ maxPrice.toFixed( 2 ) }</span>
                             </div>
                             :
-                            <div className="product-price">${ minPrice.toFixed( 2 ) }&ndash;${ maxPrice.toFixed( 2 ) }</div>
+                            <div className="product-price">${ minPrice?.toFixed( 2 ) }&ndash;${ maxPrice.toFixed( 2 ) }</div>
             }
 
             <div className="product-content">
-                <p>{ product.attributes.description }</p>
+                <p>{ product?.attributes.description }</p>
             </div>
 
             {
-                product.attributes.product_variants.data.length > 0 ?
+                product?.attributes.product_variants.data.length > 0 ?
                     <>
                         <div className="details-filter-row details-row-size">
                             <label>Color:</label>
@@ -318,10 +318,10 @@ function DetailTwo ( props ) {
 
             <div className="product-details-action">
                 <div className="details-action-col">
-                    <Qty changeQty={ onChangeQty } max={ product.attributes.stock } adClass="mr-3 mr-sm-4"></Qty>
+                    <Qty changeQty={ onChangeQty } max={ product?.attributes.stock } adClass="mr-3 mr-sm-4"></Qty>
                     <a
                         href="#"
-                        className={ `btn-product btn-cart ${( !canAddToCart( props.cartlist, product, qty ) || ( product.attributes.product_variants.data.length > 0 && !showVariationPrice ) ) ? 'btn-disabled' : ''}` }
+                        className={ `btn-product btn-cart ${( !canAddToCart( props.cartlist, product, qty ) || ( product?.attributes.product_variants.data.length > 0 && !showVariationPrice ) ) ? 'btn-disabled' : ''}` }
                         onClick={ onCartClick }
                     >
                         <span>add to cart</span>
@@ -342,12 +342,12 @@ function DetailTwo ( props ) {
                 <div className="product-cat">
                     <span>Category:</span>
                     {
-                        product.attributes?.categories?.data.map( ( cat, index ) => (
+                        product?.attributes?.categories?.data.map( ( cat, index ) => (
                             <span key={ index }>
                                 <ALink
                                     href={ { pathname: '/shop/sidebar/list', query: { category: cat.slug } } }
                                 >{ cat.attributes.name }</ALink>
-                                { index < product.attributes?.categories?.data.length - 1 ? ',' : '' }
+                                { index < product?.attributes?.categories?.data.length - 1 ? ',' : '' }
                             </span>
                         ) )
                     }

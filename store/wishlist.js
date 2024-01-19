@@ -16,7 +16,7 @@ const initialState = {
 const wishlistReducer = ( state = initialState, action ) => {
     switch ( action.type ) {
         case actionTypes.addToWishlist:
-            var findIndex = state.data.findIndex( item => item.id === action.payload.product.id );
+            var findIndex = state.data.findIndex( item => item.id === action.payload.product?.id );
             if ( findIndex == -1 ) {
                 return {
                     data: [
@@ -29,7 +29,7 @@ const wishlistReducer = ( state = initialState, action ) => {
 
         case actionTypes.removeFromWishlist:
             return {
-                data: state.data.filter( item => item.id !== action.payload.product.id )
+                data: state.data.filter( item => item.id !== action.payload.product?.id )
             };
 
         case actionTypes.refreshStore:

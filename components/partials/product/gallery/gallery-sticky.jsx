@@ -15,11 +15,11 @@ function GallerySticky( props ) {
     }, [ product ] )
 
     function moveNextPhoto() {
-        setPhotoIndex( ( photoIndex + 1 ) % product.attributes.images.data.length );
+        setPhotoIndex( ( photoIndex + 1 ) % product?.attributes.images.data.length );
     }
 
     function movePrevPhoto() {
-        setPhotoIndex( ( photoIndex + product.attributes.images.data.length - 1 ) % product.attributes.images.data.length );
+        setPhotoIndex( ( photoIndex + product?.attributes.images.data.length - 1 ) % product?.attributes.images.data.length );
     }
 
     function openLightBox( e, index ) {
@@ -39,30 +39,30 @@ function GallerySticky( props ) {
         <>
             <div className="product-gallery product-gallery-separated">
                 {
-                    product.attributes.is_new ?
+                    product?.attributes.is_new ?
                         <span className="product-label label-new">New</span>
                         : ""
                 }
 
                 {
-                    product.attributes.sale_price ?
+                    product?.attributes.sale_price ?
                         <span className="product-label label-sale">Sale</span>
                         : ""
                 }
 
                 {
-                    product.attributes.top ?
+                    product?.attributes.top ?
                         <span className="product-label label-top">Top</span>
                         : ""
                 }
 
                 {
-                    product.attributes.stock == 0 ?
+                    product?.attributes.stock == 0 ?
                         <span className="product-label label-out">Out of Stock</span>
                         : ""
                 }
                 {
-                    product.attributes.images.data.map( ( item, index ) => (
+                    product?.attributes.images.data.map( ( item, index ) => (
                         <figure className="product-main-image" key={ index } style={ { backgroundColor: '#f4f4f4' } }>
                             <Magnifier
                                 imageSrc={ process.env.NEXT_PUBLIC_ASSET_URI + item.attributes.url }
@@ -72,9 +72,9 @@ function GallerySticky( props ) {
                                 mouseActivation="hover"
                                 className="zoom-image position-relative overflow-hidden"
                                 cursorStyleActive="crosshair"
-                                width={ product.attributes.images.data[ index ].width }
-                                height={ product.attributes.images.data[ index ].height }
-                                style={ { paddingTop: `${ product.attributes.images.data[ index ].height / product.attributes.images.data[ index ].width * 100 }%` } }
+                                width={ product?.attributes.images.data[ index ].width }
+                                height={ product?.attributes.images.data[ index ].height }
+                                style={ { paddingTop: `${ product?.attributes.images.data[ index ].height / product?.attributes.images.data[ index ].width * 100 }%` } }
                             />
 
                             <button id="btn-product-gallery" className="btn-product-gallery" onClick={ e => openLightBox( e, index ) }>
@@ -88,9 +88,9 @@ function GallerySticky( props ) {
             {
                 isOpen ?
                     <LightBox
-                        mainSrc={ process.env.NEXT_PUBLIC_ASSET_URI + product.attributes.images.data[ photoIndex ].attributes.url }
-                        nextSrc={ process.env.NEXT_PUBLIC_ASSET_URI + product.attributes.images.data[ ( photoIndex + 1 ) % product.attributes.images.data.length ].attributes.url }
-                        prevSrc={ process.env.NEXT_PUBLIC_ASSET_URI + product.attributes.images.data[ ( photoIndex + product.attributes.images.data.length - 1 ) % product.attributes.images.data.length ].attributes.url }
+                        mainSrc={ process.env.NEXT_PUBLIC_ASSET_URI + product?.attributes.images.data[ photoIndex ].attributes.url }
+                        nextSrc={ process.env.NEXT_PUBLIC_ASSET_URI + product?.attributes.images.data[ ( photoIndex + 1 ) % product?.attributes.images.data.length ].attributes.url }
+                        prevSrc={ process.env.NEXT_PUBLIC_ASSET_URI + product?.attributes.images.data[ ( photoIndex + product?.attributes.images.data.length - 1 ) % product?.attributes.images.data.length ].attributes.url }
                         onCloseRequest={ closeLightBox }
                         onMovePrevRequest={ moveNextPhoto }
                         onMoveNextRequest={ movePrevPhoto }
