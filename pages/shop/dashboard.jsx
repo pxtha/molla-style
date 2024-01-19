@@ -3,6 +3,7 @@ import { Tabs, TabList, TabPanel, Tab } from 'react-tabs';
 
 import ALink from '~/components/features/alink';
 import PageHeader from '~/components/features/page-header';
+import { removeToken } from "~/utils/manageLocalStorage";
 
 function DashBoard () {
     function toOrder ( e ) {
@@ -24,6 +25,10 @@ function DashBoard () {
         document
             .querySelector( '.nav-dashboard .react-tabs__tab-list .nav-item:nth-child(5)' )
             .click();
+    }
+
+    function onSignOut(){
+        removeToken();
     }
 
     return (
@@ -72,7 +77,7 @@ function DashBoard () {
                                             </Tab>
 
                                             <Tab className="nav-item">
-                                                <ALink href="/" className="nav-link">Sign Out</ALink>
+                                                <a href="/" className="nav-link" onClick={onSignOut}>Sign Out</a>
                                             </Tab>
                                         </TabList>
                                     </aside>
