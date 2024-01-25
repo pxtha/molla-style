@@ -1,5 +1,6 @@
 import { useRouter } from 'next/router';
 import React, { useState, useEffect } from 'react';
+import { connect } from 'react-redux';
 
 import ALink from '~/components/features/alink';
 import LoginModal from '~/components/features/modals/login-modal';
@@ -8,10 +9,9 @@ import WishlistMenu from '~/components/partials/header/partials/wishlist-menu';
 import CartMenu from '~/components/partials/header/partials/cart-menu';
 import MainMenu from '~/components/partials/header/partials/main-menu';
 import StickyHeader from '~/components/features/sticky-header';
-import { getToken } from "~/utils/manageLocalStorage";
 
-function Header () {
-    const token = getToken()
+function Header (props) {
+    const { user } = props;
     const router = useRouter();
     const path = router.asPath;
     const [ containerClass, setContainerClass ] = useState( 'container' );
@@ -49,8 +49,8 @@ function Header () {
                         <ul className="top-menu top-link-menu">
                             <li className="breadcrumb-item active">
                                 <ul>
-                                    {token
-                                        ? <a className={ path.indexOf( "shop/dashboard" ) > -1 ? "active" : '' } href="/shop/dashboard">My account</a>
+                                    {user?.email 
+                                        ? <ALink href="/shop/dashboard">{user.email}</ALink>
                                         : <LoginModal/>
                                     }
                                 </ul>
@@ -122,4 +122,10 @@ function Header () {
     )
 }
 
-export default Header;
+function mapStateToProps ( state ) {
+    return {
+        user: state.user.data
+    }
+}
+
+export default connect( mapStateToProps, {} )( Header );

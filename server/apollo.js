@@ -1,5 +1,6 @@
 import { withApollo } from 'next-apollo';
-import { ApolloLink, HttpLink, InMemoryCache } from 'apollo-boost';
+import { ApolloLink, HttpLink } from 'apollo-boost';
+import { InMemoryCache } from '@apollo/client';
 import { ApolloClient } from '@apollo/client/core';
 import { getToken } from "~/utils/manageLocalStorage";
 

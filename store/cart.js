@@ -3,11 +3,14 @@ import storage from 'redux-persist/lib/storage';
 import { takeEvery } from "redux-saga/effects";
 import { toast } from 'react-toastify';
 
+
+
 export const actionTypes = {
     addToCart: "ADD_TO_CART",
     removeFromCart: "REMOVE_FROM_CART",
     refreshStore: "REFRESH_STORE",
     updateCart: "UPDATE_CART",
+    removeCart: "REMOVE_CART"
 };
 
 const initialState = {
@@ -16,13 +19,27 @@ const initialState = {
 
 const cartReducer = ( state = initialState, action ) => {
     switch ( action.type ) {
+        case actionTypes.removeCart:
+            state.data.map( cart => {
+                  
+            })
+
+            return {
+                data: []
+            }
         case actionTypes.addToCart:
+            console.log( 'cartReducer', action.payload.product );
+
             var findIndex = state.data.findIndex( item => item.id == action.payload.product?.id );
             let qty = action.payload.qty ? action.payload.qty : 1;
+            
             if ( findIndex !== -1 && action.payload.product?.attributes.product_variants.data.length > 0 ) {
-                findIndex = state.data.findIndex( item => item?.attributes?.product_name == action.payload.product?.attributes.product_name );
+                findIndex = state.data.findIndex( item => 
+                    {
+                        return item?.name == action.payload.product?.name }
+                    );
             }
-
+            console.log(findIndex, "index")
             if ( findIndex !== -1 ) {
                 return {
                     data: [
@@ -31,7 +48,9 @@ const cartReducer = ( state = initialState, action ) => {
                                 acc.push( {
                                     ...product,
                                     qty: product.qty + qty,
-                                    sum: ( action.payload.product?.attributes.sale_price ? action.payload.product?.attributes.sale_price : action.payload.product?.attributes?.price ) * ( product.qty + qty )
+                                    sum: ( action.payload.product?.attributes?.sale_price ? action.payload.product?.attributes.sale_price : action.payload.product?.attributes?.price ) * ( product.qty + qty ),
+                                    size_id: action.payload.product?.size_id,
+                                    product_variant_id: action.payload.product?.product_variant_id,
                                 } );
                             } else {
                                 acc.push( product );
@@ -48,8 +67,10 @@ const cartReducer = ( state = initialState, action ) => {
                         {
                             ...action.payload.product,
                             qty: qty,
-                            price: action.payload.product?.attributes.sale_price ? action.payload.product?.attributes.sale_price : action.payload.product?.attributes?.price,
-                            sum: qty * ( action.payload.product?.attributes.sale_price ? action.payload.product?.attributes.sale_price : action.payload.product?.attributes?.price )
+                            price: action.payload.product?.attributes?.sale_price ? action.payload.product?.attributes?.sale_price : action.payload.product?.attributes?.price,
+                            sum: qty * ( action.payload.product?.attributes?.sale_price ? action.payload.product?.attributes?.sale_price : action.payload.product?.attributes?.price ),
+                            size_id: action.payload.product?.size_id,
+                            product_variant_id: action.payload.product?.product_variant_id,
                         }
                     ]
                 };
@@ -80,13 +101,19 @@ const cartReducer = ( state = initialState, action ) => {
 }
 
 export const actions = {
-    addToCart: ( product, qty = 1 ) => ( {
-        type: actionTypes.addToCart,
-        payload: {
-            product: product,
-            qty: qty
-        }
+    removeCart : () => ( {
+        type: actionTypes.removeCart
     } ),
+
+    addToCart: ( product, qty = 1 ) =>  {
+        return {
+            type: actionTypes.addToCart,
+            payload: {
+                product: product,
+                qty: qty
+            }
+        }
+    },
 
     removeFromCart: ( product ) => ( {
         type: actionTypes.removeFromCart,

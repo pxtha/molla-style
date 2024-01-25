@@ -8,7 +8,7 @@ export default function ALink ( { children, className, style, ...props } ) {
     }
 
     return (
-        <Link { ...props }>
+        <Link { ...props } legacyBehavior>
             <a className={ className } style={ style } onClick={ defaultFunction }>
                 { children }
             </a>

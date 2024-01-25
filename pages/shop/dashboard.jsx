@@ -1,11 +1,33 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Tabs, TabList, TabPanel, Tab } from 'react-tabs';
-
+import { connect } from 'react-redux';
 import ALink from '~/components/features/alink';
 import PageHeader from '~/components/features/page-header';
 import { removeToken } from "~/utils/manageLocalStorage";
+import { actions as cartAction } from '~/store/cart';
+import { actions as wishlistAction } from '~/store/wishlist';
+import { actions as userAction } from '~/store/user';
+import axiosClient from "~/server/axiosClient/axios";
 
-function DashBoard () {
+function DashBoard (props) {
+    const { user } = props;
+    const [ orders, setOrders ] = useState( [] );
+   
+    useEffect( () => {
+        if ( orders.length === 0 && user?.id) {
+            orderApi().then( response => {
+                setOrders( response );
+            } )
+        }
+    }, [] )
+
+    console.log(orders)
+
+    async function orderApi  () {
+        const response = await axiosClient.get('/orders?populate=*&filters[user_id][id]='+user.id)
+        return response?.data; 
+    }
+
     function toOrder ( e ) {
         e.preventDefault();
         document
@@ -28,7 +50,13 @@ function DashBoard () {
     }
 
     function onSignOut(){
+        
         removeToken();
+        props.removeUser();
+        props.removeWishlist();
+        props.removeCart();
+        //removeWishlist
+        //removeCart
     }
 
     return (
@@ -91,7 +119,22 @@ function DashBoard () {
                                             </TabPanel>
 
                                             <TabPanel>
-                                                <p>No order has been made yet.</p>
+                                                {
+                                                    orders.length > 0 ? 
+                                                        orders.map( order => {
+                                                            return <div className="card card-dashboard">
+                                                                <div className="card-body">
+                                                                    <h5 className="card-title">Order #{ order?.id }</h5>
+                                                                    <p className="card-text">Placed on { order?.attributes?.createdAt }</p>
+                                                                    <p className="card-text">Total: ${ order?.attributes?.total_amount / 100}</p>
+                                                                    <p className="card-text">Status: { order?.attributes?.status }</p>
+                                                                    <ALink href="#" className="btn btn-outline-primary-2">View Details</ALink>
+                                                                </div>
+                                                            </div>
+                                                        } )
+                                                    : <p>No order has been made yet.</p>
+                                                }
+                                            
                                                 <ALink href="/shop/sidebar/list" className="btn btn-outline-primary-2"><span>GO SHOP</span><i className="icon-long-arrow-right"></i></ALink>
                                             </TabPanel>
 
@@ -184,4 +227,12 @@ function DashBoard () {
     )
 }
 
-export default React.memo( DashBoard );
+function mapStateToProps ( state ) {
+    return {
+        wishlist: state.wishlist.data,
+        cartlist: state.cartlist.data,
+        user: state.user.data
+    }
+}
+
+export default connect( mapStateToProps, { ...wishlistAction, ...cartAction, ...userAction} )( React.memo( DashBoard ));

@@ -18,7 +18,7 @@ function DetailTwo ( props ) {
     const [ colorArray, setColorArray ] = useState( [] );
     const [ sizeArray, setSizeArray ] = useState( [] );
     const [ variationGroup, setVariationGroup ] = useState( [] );
-    const [ selectedVariant, setSelectedVariant ] = useState( { color: null, colorName: null, price: null, size: "" } );
+    const [ selectedVariant, setSelectedVariant ] = useState( { id: null, size_id: null, color: null, colorName: null, price: null, size: "" } );
     const [ showClear, setShowClear ] = useState( false );
     const [ showVariationPrice, setShowVariationPrice ] = useState( false );
     const [ maxPrice, setMaxPrice ] = useState( 0 );
@@ -31,6 +31,7 @@ function DetailTwo ( props ) {
         setVariationGroup( product?.attributes.product_variants.data.reduce( ( acc, cur ) => {
             cur.attributes.sizes.data.map( item => {
                 acc.push( {
+                    id: cur.id,
                     color: cur.attributes.color,
                     colorName: cur.attributes.color_name,
                     size: item.attributes.name,
@@ -54,7 +55,7 @@ function DetailTwo ( props ) {
     }, [ product ] )
 
     useEffect( () => {
-        setSelectedVariant( { color: null, colorName: null, price: null, size: "" } );
+        setSelectedVariant( { id: null, size_id: null, color: null, colorName: null, price: null, size: "" } );
         setQty( 1 );
     }, [ router.query.slug ] )
 
@@ -121,6 +122,7 @@ function DetailTwo ( props ) {
                 return [
                     ...acc,
                     {
+                        id: cur.id,
                         color: cur.attributes.color,
                         colorName: cur.attributes.color_name,
                         price: cur.attributes.price,
@@ -131,6 +133,7 @@ function DetailTwo ( props ) {
             return [
                 ...acc,
                 {
+                    id: cur.id,
                     color: cur.attributes.color,
                     colorName: cur.attributes.color_name,
                     price: cur.attributes.price,
@@ -147,14 +150,16 @@ function DetailTwo ( props ) {
                 ...selectedVariant,
                 color: null,
                 colorName: null,
-                price: item.price
+                price: item.price,
+                id: item.id
             } );
         } else {
             setSelectedVariant( {
                 ...selectedVariant,
                 color: item.color,
                 colorName: item.colorName,
-                price: item.price
+                price: item.price,
+                id: item.id
             } );
         }
     }
@@ -190,6 +195,8 @@ function DetailTwo ( props ) {
         if ( product?.attributes.product_variants.data.length > 0 ) {
             newProduct = {
                 ...product,
+                size_id: selectedVariant.size_id,
+                product_variant_id: selectedVariant.id,
                 name:
                     product?.attributes.product_name +
                     ' - ' +
@@ -217,7 +224,7 @@ function DetailTwo ( props ) {
                     <div className="ratings-val" style={ { width: product?.attributes.rating * 20 + '%' } }></div>
                     <span className="tooltip-text">{ product?.attributes.rating?.toFixed( 2 ) }</span>
                 </div>
-                <span className="ratings-text">( { product?.attributes.review } Reviews )</span>
+                <span className="ratings-text">( { product?.attributes?.reviews?.length } Reviews )</span>
             </div>
 
             {

@@ -555,6 +555,17 @@
 			background-color: $primary-color;
 		}
 	}
+
+	.btn-outline-primary-3 {
+		color: $primary-color;
+		background-color: white;
+		border-color: $primary-color;
+
+		&:hover{
+			color: white;
+			background-color:  rgb(68, 66, 66);
+		}
+	}
 }
 
 .dropdown-cart-total {

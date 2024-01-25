@@ -58,7 +58,7 @@ function InfoThree ( props ) {
                             We hope you’ll love every purchase, but if you ever need to return an item you can do so within a month of receipt. For full details of how to make a return, please view our <ALink href="#">Returns information</ALink></p>
                 </div>
             </Card>
-            <Card title={ `Reviews (${product?.attributes.review})` } adClass="card-box card-sm">
+            <Card title={ `Reviews (${product?.attributes?.reviews?.length})` } adClass="card-box card-sm">
                 <div className="reviews">
                     <div className="review">
                         <div className="row no-gutters" >

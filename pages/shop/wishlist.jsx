@@ -9,14 +9,14 @@ import { actions as cartAction } from '~/store/cart';
 
 function Wishlist ( props ) {
     const [ wishItems, setWishItems ] = useState( [] );
-
+    
     useEffect( () => {
         setWishItems( props.wishlist.reduce( ( acc, product ) => {
             let max = 0;
             let min = 999999;
             product?.attributes.product_variants.data.map( item => {
-                if ( min > item.attributes.price ) min = item.attributes.price;
-                if ( max < item.attributes.price ) max = item.attributes.price;
+                if ( min > item.attributes?.price ) min = item.attributes?.price;
+                if ( max < item.attributes?.price ) max = item.attributes?.price;
             }, [] );
 
             if ( product?.attributes.product_variants.data.length == 0 ) {

@@ -37,7 +37,7 @@ function InfoTwo ( props ) {
                     </Tab>
 
                     <Tab className="nav-item">
-                        <span className="nav-link">Reviews ({ product?.attributes.review })</span>
+                        <span className="nav-link">Reviews ({ product?.attributes?.reviews?.length })</span>
                     </Tab>
                 </TabList>
 

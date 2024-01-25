@@ -44,6 +44,8 @@ function DetailOne ( props ) {
             console.log(acc, cur)
             cur.attributes.sizes.data.map( item => {
                 acc.push( {
+                    id: cur.id,
+                    size_id: item.id,
                     color: cur.attributes.color,
                     colorName: cur.attributes.color_name,
                     size: item.attributes.name,
@@ -151,6 +153,7 @@ function DetailOne ( props ) {
                 return [
                     ...acc,
                     {
+                        id: cur.id,
                         color: cur.attributes.color,
                         colorName: cur.attributes.color_name,
                         price: cur.attributes.price,
@@ -161,6 +164,7 @@ function DetailOne ( props ) {
             return [
                 ...acc,
                 {
+                    id: cur.id,
                     color: cur.attributes.color,
                     colorName: cur.attributes.color_name,
                     price: cur.attributes.price,
@@ -177,23 +181,27 @@ function DetailOne ( props ) {
                 ...selectedVariant,
                 color: null,
                 colorName: null,
-                price: item.price
+                price: item.price,
+                id: item.id
             } );
         } else {
             setSelectedVariant( {
                 ...selectedVariant,
                 color: item.color,
                 colorName: item.colorName,
-                price: item.price
+                price: item.price,
+                id: item.id
             } );
         }
     }
 
     function selectSize ( e ) {
+        console.log( e.target)
         if ( e.target.value == "" ) {
-            setSelectedVariant( { ...selectedVariant, size: "" } );
+            setSelectedVariant( { ...selectedVariant, size: "", size_id: null } );
         } else {
-            setSelectedVariant( { ...selectedVariant, size: e.target.value } );
+            const [ size, size_id ] = e.target.value.split( '-' );
+            setSelectedVariant( { ...selectedVariant, size:size, size_id: size_id } );
         }
     }
 
@@ -211,7 +219,9 @@ function DetailOne ( props ) {
             ...selectedVariant,
             color: null,
             colorName: null,
-            size: ""
+            size: "",
+            id: null,
+            size_id: null,
         } ) );
         refreshSelectableGroup();
     }
@@ -219,7 +229,6 @@ function DetailOne ( props ) {
     function onCartClick ( e, index = 0 ) {
         e.preventDefault();
         if ( e.currentTarget.classList.contains( 'btn-disabled' ) ) return;
-
         let newProduct = { ...product };
         if ( product?.attributes.product_variants.data.length > 0 ) {
             newProduct = {
@@ -230,12 +239,15 @@ function DetailOne ( props ) {
                     selectedVariant.colorName +
                     ', ' +
                     selectedVariant.size,
-                price: selectedVariant.price
+                price: selectedVariant.price,
+                size_id: selectedVariant.size_id,
+                product_variant_id: selectedVariant.id,
             };
         }
         props.addToCart(
             newProduct,
-            index == 0 ? qty : qty2
+            index == 0 ? qty : qty2,
+            
         );
     }
 
@@ -252,7 +264,7 @@ function DetailOne ( props ) {
                     <div className="ratings-val" style={ { width: product?.attributes.rating * 20 + '%' } }></div>
                     <span className="tooltip-text">{ product?.attributes.rating?.toFixed( 2 ) }</span>
                 </div>
-                <span className="ratings-text">( { product?.attributes.review } Reviews )</span>
+                <span className="ratings-text">( { product?.attributes?.reviews?.length } Reviews )</span>
             </div>
 
             {
@@ -311,15 +323,14 @@ function DetailOne ( props ) {
                                 <select
                                     name="size"
                                     className="form-control"
-                                    value={ selectedVariant.size }
+                                    value={ selectedVariant.size + "-" + selectedVariant.size_id }
                                     onChange={ selectSize }
                                 >
-                                    <option value="">Select a size</option>
+                                    <option value="" key="">Select a size</option>
                                     {
                                         sizeArray.map( ( item, index ) => (
                                             <option
-                                                value={ item.size }
-                                                key={ index }
+                                                value={ item.size + "-" + item.size_id }
                                             >{ item.size }</option>
                                         ) )
                                     }

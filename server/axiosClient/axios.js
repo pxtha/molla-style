@@ -5,13 +5,8 @@ const API_URI = `${process.env.NEXT_PUBLIC_SERVER_URL}/api`;
 
 const axiosClient = axios.create({
     baseURL: API_URI,
-    withCredentials: true,
     crossDomain: true,
     responseType: 'json',
-    maxRedirects: 3,
-    maxContentLength: 2000,
-    maxBodyLength: Infinity,
-    timeout: 30000,
     headers: {
         'Content-Type': 'application/json',
         'Accept': "application/json"

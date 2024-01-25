@@ -220,7 +220,7 @@ function DetailThree ( props ) {
                                 <div className="ratings-val" style={ { width: product?.attributes.rating * 20 + '%' } }></div>
                                 <span className="tooltip-text">{ product?.attributes.rating?.toFixed( 2 ) }</span>
                             </div>
-                            <span className="ratings-text">( { product?.attributes.review } Reviews )</span>
+                            <span className="ratings-text">( { product?.attributes?.reviews?.length } Reviews )</span>
                         </div>
 
                         {

@@ -22,8 +22,8 @@ function ProductTen ( props ) {
         let min = minPrice;
         let max = maxPrice;
         product?.attributes.product_variants.data.map( item => {
-            if ( min > item.attributes.price ) min = item.attributes.price;
-            if ( max < item.attributes.price ) max = item.attributes.price;
+            if ( min > item.attributes?.price ) min = item.attributes?.price;
+            if ( max < item.attributes?.price ) max = item.attributes?.price;
         }, [] );
 
         if ( product?.attributes.product_variants.data.length == 0 ) {
@@ -186,7 +186,7 @@ function ProductTen ( props ) {
                         <div className="ratings-val" style={ { width: product?.attributes.rating * 20 + '%' } }></div>
                         <span className="tooltip-text">{ product?.attributes.rating?.toFixed( 2 ) }</span>
                     </div>
-                    <span className="ratings-text">( { product?.attributes.review } Reviews )</span>
+                    <span className="ratings-text">( { product?.attributes?.reviews?.length } Reviews )</span>
                 </div>
 
                 {

@@ -84,7 +84,7 @@ function Home () {
                                     <div className="banner-content banner-content-center">
                                         <h4 className="banner-subtitle text-white"><ALink href="/shop/sidebar/3cols">New in</ALink></h4>
                                         <h3 className="banner-title text-white"><ALink href="/shop/sidebar/3cols"><strong>Women’s</strong></ALink></h3>
-                                        <ALink href="/shop/sidebar/3cols?category=women" className="btn btn-outline-white banner-link underline">Shop Now</ALink>
+                                        <ALink href="/shop/sidebar/3cols?category=5" className="btn btn-outline-white banner-link underline">Shop Now</ALink>
                                     </div>
                                 </div>
                             </Reveal>
@@ -109,7 +109,7 @@ function Home () {
                                     <div className="banner-content banner-content-center">
                                         <h4 className="banner-subtitle text-white"><ALink href="/shop/sidebar/3cols">New in</ALink></h4>
                                         <h3 className="banner-title text-white"><ALink href="/shop/sidebar/3cols"><strong>Men’s</strong></ALink></h3>
-                                        <ALink href="/shop/sidebar/3cols?category=men" className="btn btn-outline-white banner-link underline">Shop Now</ALink>
+                                        <ALink href="/shop/sidebar/3cols?category=13" className="btn btn-outline-white banner-link underline">Shop Now</ALink>
                                     </div>
                                 </div>
                             </Reveal>

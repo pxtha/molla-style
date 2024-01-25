@@ -138,7 +138,7 @@ export const attrFilter = function ( products = [], attr ) {
             return true;
         }
 
-        if ( attr === 'sale' && item.attributes.sale_price ) {
+        if ( attr === 'sale' && item.attributes?.sale_price ) {
             return true;
         }
 

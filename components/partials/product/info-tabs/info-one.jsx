@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,useRef} from 'react';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import { useMutation } from '@apollo/client';
 
@@ -9,6 +9,7 @@ function InfoOne ( props ) {
     const { product } = props;
     const [rating, setRating] = useState(0);
     const [mutateFunction, { data, loading, error }] = useMutation(CREATE_REVIEW);
+    const formRef = useRef(); // create a ref for the form
 
     const timeAgo = (date) => {
         const seconds = Math.floor((new Date() - Date.parse(date)) / 1000);
@@ -72,6 +73,7 @@ function InfoOne ( props ) {
                     product: product.id   
                 }
            })
+           formRef.current.reset(); 
         } catch (err) {
             console.log(err)
         }
@@ -95,7 +97,7 @@ function InfoOne ( props ) {
                     </Tab>
 
                     <Tab className="nav-item">
-                        <span className="nav-link" >Reviews ({ product?.attributes.review })</span>
+                        <span className="nav-link" >Reviews ({ product?.attributes?.reviews?.data?.length })</span>
                     </Tab>
                 </TabList>
 
@@ -139,8 +141,8 @@ function InfoOne ( props ) {
                         <div className="reviews">
                             <h3>Reviews ({product?.attributes?.reviews?.data?.length || 0})</h3>
                             {
-                                product && product?.attributes.reviews?.data?.length > 0 ?
-                                        product?.attributes.reviews.data.map((item) =>
+                                product && product?.attributes?.reviews?.data?.length > 0 ?
+                                        product?.attributes?.reviews?.data.map((item) =>
 
                                         <div className="review">
                                             <div className="row no-gutters">
@@ -181,7 +183,7 @@ function InfoOne ( props ) {
                                 <p>Your email address will not be published. Required fields are
 														marked *</p>
                             </div>
-                            <form action="#" onSubmit={onCommented}>
+                            <form action="#" onSubmit={onCommented} ref={formRef}>
 
                                 <div className="rating-form">
                                     <label htmlFor="rating" className="text-dark">Your rating * </label>

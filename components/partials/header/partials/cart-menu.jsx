@@ -31,13 +31,13 @@ function CartMenu ( props ) {
 
                                             <span className="cart-product-info">
                                                 <span className="cart-product-qty">{ item.qty } </span>
-                                                 x ${ item.attributes.sale_price ? item.attributes.sale_price.toFixed( 2 ) : item.attributes.price.toFixed( 2 ) }
+                                                 x ${ item.attributes?.sale_price ? item.attributes?.sale_price.toFixed( 2 ) : item.attributes?.price?.toFixed( 2 ) }
                                             </span>
                                         </div>
 
                                         <figure className="product-image-container ml-2">
                                             <ALink href={ `/product/default/${item.id}` } className="product-image">
-                                                <img src={ item.attributes.images.data.length > 0 ?  process.env.NEXT_PUBLIC_ASSET_URI + item.attributes.images.data[0].attributes.url : "" } alt="product" />
+                                                <img src={ item.attributes?.images.data.length > 0 ?  process.env.NEXT_PUBLIC_ASSET_URI + item.attributes?.images.data[0].attributes.url : "" } alt="product" />
                                             </ALink>
                                         </figure>
                                         <button className="btn-remove" title="Remove Product" onClick={ () => props.removeFromCart( item ) }><i className="icon-close"></i></button>

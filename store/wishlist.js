@@ -4,6 +4,7 @@ import { takeEvery } from "redux-saga/effects";
 import { toast } from 'react-toastify';
 
 export const actionTypes = {
+    removeWishlist: 'REMOVE_WISHLIST',
     addToWishlist: 'ADD_TO_WISHLIST',
     removeFromWishlist: 'REMOVE_FROM_WISHLIST',
     refreshStore: 'REFRESH_STORE',
@@ -16,6 +17,7 @@ const initialState = {
 const wishlistReducer = ( state = initialState, action ) => {
     switch ( action.type ) {
         case actionTypes.addToWishlist:
+            console.log( action.payload.product, 'addToWishlist' );
             var findIndex = state.data.findIndex( item => item.id === action.payload.product?.id );
             if ( findIndex == -1 ) {
                 return {
@@ -25,8 +27,6 @@ const wishlistReducer = ( state = initialState, action ) => {
                     ]
                 };
             }
-
-
         case actionTypes.removeFromWishlist:
             return {
                 data: state.data.filter( item => item.id !== action.payload.product?.id )
@@ -34,13 +34,20 @@ const wishlistReducer = ( state = initialState, action ) => {
 
         case actionTypes.refreshStore:
             return initialState;
-
+        case actionTypes.removeWishlist:
+            return {
+                data: []
+            }
         default:
             return state;
     }
 }
 
 export const actions = {
+    removeWishlist: () => ( {
+        type: actionTypes.removeWishlist
+    } ),
+
     addToWishlist: product => ( {
         type: actionTypes.addToWishlist,
         payload: {

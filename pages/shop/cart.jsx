@@ -11,11 +11,11 @@ import { cartPriceTotal } from '~/utils/index';
 function Cart ( props ) {
     const [ cartList, setCartList ] = useState( [] );
     const [ shippingCost, setShippingCost ] = useState( 0 );
-
     useEffect( () => {
         setCartList( props.cartItems );
     }, [ props.cartItems ] )
 
+    console.log(cartList)
     function onChangeShipping ( value ) {
         setShippingCost( value );
     }
@@ -28,9 +28,9 @@ function Cart ( props ) {
                         ...item,
                         qty: value,
                         sum:
-                            ( item.attributes.sale_price
-                                ? item.attributes.sale_price
-                                : item.attributes.price ) * value
+                            ( item.attributes?.sale_price
+                                ? item.attributes?.sale_price
+                                : item.attributes?.price ) * value
                     };
                 return item;
             } )
@@ -90,22 +90,21 @@ function Cart ( props ) {
                                                                 <div className="product">
                                                                     <figure className="product-media">
                                                                         <ALink href={ `/product/default/${item.id}` } className="product-image">
-                                                                            <img src={ item.attributes.images.data.length > 0 ?  process.env.NEXT_PUBLIC_ASSET_URI + item.attributes.images.data[0].attributes.url : "" } alt="product" />
+                                                                            <img src={ item.attributes?.images.data.length > 0 ?  process.env.NEXT_PUBLIC_ASSET_URI + item.attributes?.images.data[0].attributes.url : "" } alt="product" />
                                                                         </ALink>
                                                                     </figure>
 
                                                                     <h4 className="product-title">
-                                                                        <ALink href={ `/product/default/${item.id}` }>{ item?.attributes?.product_name }</ALink>
+                                                                        <ALink href={ `/product/default/${item.id}` }>{ item?.name ? item?.name : item.attributes?.product_name }</ALink>
                                                                     </h4>
                                                                 </div>
                                                             </td>
-
                                                             <td className="price-col">
                                                                 ${
-                                                                    item.attributes.sale_price ?
-                                                                        item.attributes.sale_price.toLocaleString( undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 } )
+                                                                    item.attributes?.sale_price ?
+                                                                        item.attributes?.sale_price.toLocaleString( undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 } )
                                                                         :
-                                                                        item.attributes.price.toLocaleString( undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 } )
+                                                                        item.attributes?.price?.toLocaleString( undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 } )
 
                                                                 }
                                                             </td>

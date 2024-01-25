@@ -22,8 +22,8 @@ function ProductFive ( props ) {
         let min = minPrice;
         let max = maxPrice;
         product?.attributes.product_variants.data.map( item => {
-            if ( min > item.attributes.price ) min = item.attributes.price;
-            if ( max < item.attributes.price ) max = item.attributes.price;
+            if ( min > item.attributes?.price ) min = item.attributes?.price;
+            if ( max < item.attributes?.price ) max = item.attributes?.price;
         }, [] );
 
         if ( product?.attributes.product_variants.data.length == 0 ) {
